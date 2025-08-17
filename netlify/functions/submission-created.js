@@ -29,7 +29,7 @@ export async function handler(event) {
       throw new Error("Failed to create subscriber");
     }
 
-    const subId = createData.data?.id;
+    const subId = createData.id;
     if (!subId) {
       throw new Error("No subscriber ID returned");
     }
