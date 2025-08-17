@@ -1,31 +1,60 @@
-// netlify/functions/submission-created.js
-const { EMAIL_TOKEN, FORM_ID } = process.env;
-// Si tu préfères, utilise le fetch natif (Node 18+). Sinon importe node-fetch v3 :
-// import fetch from "node-fetch";  // décommente si nécessaire
+import fetch from "node-fetch";
 
-exports.handler = async (event) => {
+const { KIT_API_KEY, KIT_FORM_ID } = process.env;
+
+export const handler = async (event) => {
   try {
-    // Le tuto lit l'email ainsi :
-    const email = JSON.parse(event.body).payload.email;  // <-- important
-    console.log(`Received a submission: ${email}`);
+    const payload = JSON.parse(event.body);
+    const email = payload?.payload?.email || payload?.data?.email;
 
-    // === ConvertKit / Kit API V3 (exactement comme dans l’article) ===
-const endpoint = `https://api.kit.com/v4/forms/${FORM_ID}/subscribers`;
-const resp = await fetch(endpoint, {
-  method: "POST",
-  headers: {
-    "Authorization": `Bearer ${EMAIL_TOKEN}`,
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    email_address: email,  // <= nouveau nom de champ en V4
-  }),
-});
+    if (!email) {
+      console.error("No email in submission");
+      return { statusCode: 400, body: "Missing email" };
+    }
 
-    const text = await resp.text();
-    console.log("ConvertKit response:", resp.status, text);
+    // Étape 1 — créer le subscriber
+    const subRes = await fetch("https://api.kit.com/v4/subscribers", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${KIT_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email_address: email,
+      }),
+    });
 
-    // Redirige vers une page de confirmation
+    const subData = await subRes.json();
+    if (!subRes.ok) {
+      console.error("Error creating subscriber:", subData);
+      return { statusCode: 500, body: "Error creating subscriber" };
+    }
+
+    const subscriberId = subData?.data?.id;
+    if (!subscriberId) {
+      console.error("Subscriber ID missing:", subData);
+      return { statusCode: 500, body: "No subscriber ID returned" };
+    }
+
+    // Étape 2 — l’abonner au form
+    const formRes = await fetch(`https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscriptions`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${KIT_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        subscriber_id: subscriberId,
+      }),
+    });
+
+    const formData = await formRes.json();
+    if (!formRes.ok) {
+      console.error("Error subscribing to form:", formData);
+      return { statusCode: 500, body: "Error subscribing to form" };
+    }
+
+    // Succès → redirection vers /confirmation/
     return {
       statusCode: 302,
       headers: { Location: "/confirmation/" },
