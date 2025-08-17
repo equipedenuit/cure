@@ -2,6 +2,26 @@
 layout: default
 title: "Cure"
 ---
+<!-- Newsletter form (Netlify Forms) -->
+<form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field"
+      style="margin: 1rem 0 2rem 0; text-align:center;">
+  <input type="hidden" name="form-name" value="newsletter">
+  <p style="display:none;">
+    <label>Ne pas remplir : <input name="bot-field"></label>
+  </p>
+
+  <label for="nl-email" style="display:block; margin-bottom:.5rem;">
+    Recevoir les nouveaux posts par email
+  </label>
+  <input id="nl-email" name="email" type="email" required
+         style="font: .88em 'Times New Roman', serif; padding:.4rem .6rem; width: 75%; max-width: 360px;">
+  <button type="submit"
+          style="font: .88em 'Times New Roman', serif; padding:.45rem .8rem; margin-left:.5rem;">
+    S’abonner
+  </button>
+</form>
+
+
 
 {% for post in paginator.posts %}
   <article>
