@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 const { KIT_API_KEY } = process.env;
 
 exports.handler = async (event, context) => {
