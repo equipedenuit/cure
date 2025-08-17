@@ -18,6 +18,5 @@ collections:
       - {label: "Titre", name: "title", widget: "string"}
       - {label: "Date", name: "date", widget: "datetime"}
       - {label: "Image (pour email/RSS)", name: "image", widget: "image", required: false}
-      - {label: "YouTube ID (optionnel)", name: "youtube_id", widget: "string", required: false, hint: "Ex: dQw4w9WgXcQ"}
       - {label: "Contenu", name: "body", widget: "markdown"}
 
