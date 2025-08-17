@@ -1,8 +1,14 @@
+# netlify.toml — version clean
+
 [build]
-  base = "."
+  publish = "_site"
+  command = "bundle exec jekyll build"   # si tu as un Gemfile (recommandé)
 
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-  node_version = "18"
 
+[build.environment]
+  NODE_VERSION = "18"
+  RUBY_VERSION = "3.2.2"   # ou celle de ton Gemfile.lock
+  JEKYLL_ENV   = "production"
