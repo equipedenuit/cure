@@ -43,66 +43,52 @@ a:visited {
   .pager{display:flex;justify-content:space-between;gap:1rem;margin:2rem 0}
   .pager .prev,.pager .next{color:#0000EE;text-decoration:underline}
 
-/* --- Newsletter form: propre & robuste --- */
+/* Conteneur du formulaire */
 form[name="newsletter"] {
-  margin: 1rem 0 2rem;
-  text-align: center;
-}
-
-/* conteneur de la ligne input+bouton */
-form[name="newsletter"] .row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: .5rem;
+  justify-content: center;
+  margin: 1rem 0;
 }
 
-/* reset total pour éviter les héritages foireux (aspect-ratio, etc.) */
-form[name="newsletter"] input[type="email"],
-form[name="newsletter"] button {
-  box-sizing: border-box;
-  appearance: none;
-  -webkit-appearance: none;
-  aspect-ratio: auto !important; /* anti-bogue si un aspect-ratio traîne */
-}
-
-/* input */
+/* Champ email */
 form[name="newsletter"] input[type="email"] {
-  font-size: 16px;              /* évite l’auto-zoom iOS */
-  line-height: 1.2;
-  padding: .6rem .75rem;
-  width: 100%;
-  max-width: 360px;             /* même largeur qu’avant */
-  min-height: 44px;             /* tap target iOS */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* bouton */
-form[name="newsletter"] button {
-  padding: .6rem 1rem;
-  min-height: 44px;
+  flex: 1 1 250px;
+  padding: .5rem .75rem;
   border: 1px solid #000;
   background: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  white-space: nowrap;
-  font: inherit;                /* Times, même taille que le site */
+  color: #000;
+  border-radius: 0;         /* look carré */
+  font: inherit;
+  max-width: 300px;
 }
-form[name="newsletter"] button:hover { background:#f5f5f5; }
 
-/* mobile: on empile proprement */
-@media (max-width: 520px) {
-  form[name="newsletter"] .row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  form[name="newsletter"] input[type="email"],
-  form[name="newsletter"] button {
-    width: 100%;
-    max-width: none;
-  }
+/* Bouton */
+form[name="newsletter"] button {
+  padding: .5rem 1rem;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  border-radius: 0;         /* look carré */
+  font: inherit;
+  cursor: pointer;
 }
+
+/* Hover (desktop) */
+form[name="newsletter"] button:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* État désactivé (mobile + desktop) */
+form[name="newsletter"] button:disabled {
+  background: #f5f5f5;
+  color: #000;              /* force texte noir */
+  opacity: .6;
+  cursor: not-allowed;
+}
+
 
 
     article{ margin: 0 0 3rem 0; }
