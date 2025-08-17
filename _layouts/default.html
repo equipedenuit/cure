@@ -77,22 +77,51 @@ form[name="newsletter"] button:hover{ background:#f5f5f5; }
 <!-- Newsletter form -->
 <form name="newsletter"
       method="POST"
-      action="{{ '/confirmation/' | relative_url }}"
       data-netlify="true"
       netlify-honeypot="bot-field"
+      onsubmit="newsletterSubmit(event)"
       style="margin:1rem 0 2rem;text-align:center;">
   <input type="hidden" name="form-name" value="newsletter">
   <p style="display:none;"><label>Ne pas remplir : <input name="bot-field"></label></p>
 
-  <label for="nl-email" style="display:block;margin-bottom:.5rem;">
-    Recevoir les nouveaux posts par email
-  </label>
+  <label for="nl-email" style="display:block;margin-bottom:.5rem;">Recevoir les nouveaux posts par email</label>
   <input id="nl-email" name="email" type="email" required
          style="font:.88em 'Times New Roman',serif;padding:.4rem .6rem;width:75%;max-width:360px;">
   <button type="submit" style="font:.88em 'Times New Roman',serif;padding:.45rem .8rem;margin-left:.5rem;">
     S’abonner
   </button>
 </form>
+
+<script>
+function encode(data) {
+  return Object.keys(data).map(
+    (k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k])
+  ).join("&");
+}
+
+async function newsletterSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const fd = new FormData(form);
+
+  // Construire un body x-www-form-urlencoded comme Netlify le recommande
+  const body = encode(Object.fromEntries(fd.entries()));
+
+  try {
+    const res = await fetch("https://curerecs.net/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body
+    });
+    if (!res.ok) throw new Error("Submit failed: " + res.status);
+    // Redirection en GET vers la page de confirmation
+    window.location.href = "https://curerecs.net/confirmation/";
+  } catch (err) {
+    alert("Erreur lors de l’inscription : " + err.message);
+  }
+}
+</script>
+
 
 
   {{ content }}
