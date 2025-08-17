@@ -65,34 +65,36 @@ blockquote footer a {
 }
 
 
-/* Ligne du formulaire */
+/* Ligne du formulaire : pas de wrap en desktop */
 .nl-row{
   display:flex;
-  flex-wrap:wrap;
+  align-items:center;      /* aligne label / input / bouton */
   justify-content:center;
-  align-items:center;     /* aligne verticalement label + input + bouton */
-  gap:.5rem;
+  gap:.75rem;
+  flex-wrap: nowrap;       /* ← empêche le passage à la ligne */
   margin:1rem 0 2rem;
 }
 
-/* Label compact, sur une ligne */
+/* Label compact */
 .nl-label{
+  flex:0 0 auto;
   white-space:nowrap;
-  margin:0;               /* pas de décalage vertical */
+  margin:0;
   font: inherit;
 }
 
-/* Champ email (style carré web 1.0) */
+/* Input (prend la place dispo, mais peut rétrécir un peu) */
 form[name="newsletter"] input[type="email"]{
-  flex:1 1 260px;
-  max-width:360px;
+  flex:1 1 420px;          /* grand par défaut, rétrécit si besoin */
+  min-width: 260px;        /* évite d’être trop petit */
+  max-width: 720px;        /* borne haute pour rester élégant */
   padding:.5rem .75rem;
   border:1px solid #000;
   background:#fff;
   color:#000;
   border-radius:0;
   font:inherit;
-  font-size:16px;         /* évite l’auto-zoom iOS */
+  font-size:16px;
   line-height:1.2;
   min-height:44px;
   box-sizing:border-box;
@@ -101,8 +103,9 @@ form[name="newsletter"] input[type="email"]{
   aspect-ratio:auto !important;
 }
 
-/* Bouton (comme avant) */
+/* Bouton (reste sur la même ligne) */
 form[name="newsletter"] button{
+  flex:0 0 auto;           /* ← ne s’étire pas, ne passe pas dessous */
   padding:.5rem 1rem;
   border:1px solid #000;
   background:#fff;
@@ -116,12 +119,17 @@ form[name="newsletter"] button{
 form[name="newsletter"] button:hover{ background:#000;color:#fff; }
 form[name="newsletter"] button:disabled{ background:#f5f5f5;color:#000;opacity:.6;cursor:not-allowed; }
 
-/* Mobile: label au-dessus, champs 100% */
-@media (max-width:680px){
+/* Mobile : on autorise le wrap et on empile proprement */
+@media (max-width: 680px){
+  .nl-row{ flex-wrap: wrap; }
   .nl-label{ flex:1 1 100%; text-align:center; }
   form[name="newsletter"] input[type="email"],
-  form[name="newsletter"] button{ width:100%; max-width:none; }
+  form[name="newsletter"] button{
+    width:100%;
+    max-width:none;
+  }
 }
+
 
 
 
