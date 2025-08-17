@@ -8,137 +8,74 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== Thème LiveHouse (Cure) – réglages “pixel” ===== */
-    :root{
-      --ink:#111;
-      --muted:#6f6f6f;
-      --line:#e7e7e7;
-      --bg:#fff;
-      --accent:#000;
+  :root{
+    /* gabarit proche de LiveHouse */
+    --wrap: 1024px;      /* largeur totale du site */
+    --left: 180px;       /* colonne méta (gauche) */
+    --gap: 32px;         /* gouttière entre colonnes */
+  }
 
-      /* largeur et colonnes (match capture) */
-      --wrap: 1200px;       /* largeur totale visuelle */
-      --g: 28px;            /* gouttière généreuse */
-      --col-left: 250px;    /* colonne méta */
-      --col-main: 660px;    /* contenu principal */
-      --col-right: 260px;   /* sidebar */
-    }
+  /* Typo “system UI” plus compacte */
+  html,body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    color:#111;
+    background:#fff;
+  }
 
-    html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); }
-    body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-size:16px; line-height:1.55; }
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 16px;}
 
-    a{ color:var(--accent); text-decoration:none; }
-    a:hover{ text-decoration:underline; }
+  /* Header */
+  .site-head{display:flex;align-items:center;gap:36px;padding:28px 0 18px;border-bottom:1px solid #eee;}
+  .brand{font-weight:800;font-size:32px;letter-spacing:.2px}
+  .brand:before{content:"— ";font-weight:700;margin-right:6px;}
+  .nav a{margin-right:24px;text-decoration:none;color:#111}
+  .nav a[aria-current="page"]{font-weight:700}
 
-    /* ===== Header ===== */
-    .site-head{
-      max-width: var(--wrap);
-      margin: 36px auto 14px;
-      padding: 0 var(--g);
-    }
-    .brand{
-      display:flex; align-items:baseline; gap:14px;
-      font-weight: 800; letter-spacing: .1px;
-      font-size: 44px; line-height:1;
-    }
-    .brand::before{ content:"—"; font-weight:800; }
-    .nav{
-      margin-top: 8px;
-      font-weight: 700;
-      font-size: 16px;
-    }
-    .nav a{ margin-right: 22px; }
-    .nav a[aria-current="page"]{ text-decoration:underline; }
+  /* Grille 2 colonnes : meta | contenu */
+  .post-row{
+    display:grid;
+    grid-template-columns: var(--left) var(--gap) 1fr;
+    align-items:start;
+    gap:0;
+    padding:28px 0 36px;
+  }
+  .meta{
+    grid-column:1/2;
+    font-size:13px; color:#666;
+  }
+  .meta .sep{display:block;width:18px;border-top:3px solid #111;margin:8px 0 10px;}
+  .meta a{color:#333;text-decoration:none;border-bottom:1px solid #ddd}
+  .meta a:hover{border-bottom-color:#333}
 
-    /* ligne grise sous le header (subtile) */
-    .rule{
-      max-width: var(--wrap);
-      margin: 10px auto 0;
-      padding: 0 var(--g);
-      border-top:1px solid var(--line);
-    }
+  .post{grid-column:3/4; max-width:720px;}
+  .post h2{
+    font-size:28px; line-height:1.25; font-weight:800; margin:0 0 8px 0;
+  }
+  .post .date{display:none;} /* pas de date dans l’article */
 
-    /* ===== Grille principale ===== */
-    .wrap{
-      max-width: var(--wrap);
-      margin: 16px auto 0;
-      padding: 0 var(--g);
-      display:grid;
-      grid-template-columns: var(--col-left) var(--col-main) var(--col-right);
-      grid-column-gap: var(--g);
-      align-items:start;
-    }
+  /* Médias */
+  iframe{width:100%;max-width:100%;aspect-ratio:16/9;height:auto;display:block}
+  img,video{max-width:100%;height:auto;display:block}
 
-    /* ===== Sidebar ===== */
-    .sidebar{ position: sticky; top: 26px; }
-    .widget{
-      border:1px solid var(--line);
-      background:#fff;
-      padding: 14px 16px;
-      margin-bottom: 18px;
-    }
-    .widget h3{
-      margin:0 0 .6rem 0;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-    }
-    .search-input{ width:100%; padding:.55rem .7rem; border:1px solid #cfcfcf; outline:none; }
+  /* Pager */
+  .pager{display:flex;justify-content:space-between;margin:24px 0 40px}
+  .pager a{text-decoration:none}
 
-    /* ===== Ligne de post (index) : méta + contenu ===== */
-    .post-row{
-      grid-column: 1 / span 2; /* prend méta + contenu */
-      display:grid;
-      grid-template-columns: var(--col-left) var(--col-main);
-      grid-column-gap: var(--g);
-      padding: 22px 0;
-      border-top:1px solid var(--line);
-    }
-    .post-row:first-child{ border-top:none; }
+  /* Cacher l’aperçu “email” sur le web (on ne garde que l’iframe) */
+  @media screen { .email-preview{display:none} }
 
-    .meta{
-      font-size:14px; color:var(--muted);
-    }
-    .meta .sep{ display:block; width:18px; border-top:2px solid #000; margin:.55rem 0; }
-    .meta a{ color:var(--ink); }
+  /* Mobile */
+  @media (max-width: 768px){
+    .post-row{grid-template-columns: 1fr; gap:12px;}
+    .meta{order:-1; display:flex; align-items:center; gap:10px;}
+    .meta .sep{margin:0 10px 0 0}
+    .post{grid-column:1/-1; max-width:100%}
+    .post h2{font-size:24px}
+  }
+</style>
 
-    .post{ min-width:0; }
-    .post h2{
-      margin: 0 0 .35rem 0;
-      font-size: 30px; line-height:1.18; font-weight: 700;
-    }
-    .post .date{
-      color:var(--muted); font-size:14px; margin-bottom:.65rem;
-    }
-    .post p{ margin:.85rem 0; }
-
-    /* Embeds responsives */
-    .post iframe{ width:100%; aspect-ratio:16/9; height:auto; display:block; border:0; }
-    .post img, .post video{ max-width:100%; height:auto; display:block; }
-
-    /* ===== Pagination ===== */
-    .pager{
-      grid-column: 1 / span 2;
-      display:flex; justify-content:space-between;
-      margin: 18px 0 42px; color:var(--muted);
-    }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 1140px){
-      :root{ --col-left: 230px; --col-main: 1fr; --col-right: 260px; }
-      .wrap{ grid-template-columns: var(--col-left) 1fr var(--col-right); }
-      .post-row{ grid-template-columns: var(--col-left) 1fr; }
-    }
-    @media (max-width: 920px){
-      .wrap{ grid-template-columns: 1fr; }
-      .sidebar{ position:static; }
-      .post-row{
-        grid-column:1; grid-template-columns:1fr; border-top:1px solid var(--line);
-      }
-      .meta{ order:2; margin-top:.75rem; }
-      .pager{ grid-column:1; }
-    }
-  </style>
 </head>
 <body>
 
