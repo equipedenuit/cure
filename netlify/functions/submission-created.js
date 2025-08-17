@@ -1,6 +1,5 @@
 // netlify/functions/submission-created.js
-// Node 18+ : fetch natif
-const { KIT_API_KEY, KIT_FORM_ID } = process.env;
+const { KIT_API_KEY } = process.env;
 
 exports.handler = async (event) => {
   try {
@@ -15,30 +14,28 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: "Missing email" };
     }
 
-    // ⚠️ Un seul appel : abonner l’email directement au Form (V4)
-    const res = await fetch(`https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscribers`, {
+    const res = await fetch("https://api.kit.com/v4/subscribers", {
       method: "POST",
       headers: {
         "X-Kit-Api-Key": KIT_API_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email_address: email
-        // si tu veux VRAIMENT forcer inactif côté API :
-        // state: "inactive"
+        email_address: email,
+        state: "inactive", // <-- force double opt-in
       }),
     });
 
     const json = await res.json();
-    console.log("[kit] add to form:", res.status, json);
+    console.log("[kit] create subscriber:", res.status, json);
 
     if (!res.ok) {
-      return { statusCode: 500, body: "Error subscribing to form" };
+      return { statusCode: 500, body: "Error creating subscriber" };
     }
 
     return { statusCode: 200, body: "OK" };
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
     return { statusCode: 500, body: "Server error" };
   }
 };
