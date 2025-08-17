@@ -1,36 +1,28 @@
-// netlify/functions/submission-created.js
-export async function handler(event) {
-  try {
-    const payload = JSON.parse(event.body).payload;
-    const email = payload.data.email;
-    if (!email) throw new Error("No email in submission payload");
+const { KIT_API_KEY } = process.env;
+import fetch from 'node-fetch';
 
-    console.log("[kit] new submission:", email);
+exports.handler = async (event, context) => {
+    const email = JSON.parse(event.body).payload.email
+    console.log(`Received a submission: ${email}`)
 
-    const res = await fetch(
-      `https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscribers`,
-      {
-        method: "POST",
-        headers: {
-          "X-Kit-Api-Key": KIT_API_KEY,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email_address: email,
-          state: "inactive", // ✅ force confirmation email
-          referrer: payload.site_url || "https://curerecs.net",
-        }),
-      }
+    const response = await fetch (
+        'https://api.kit.com/v4/forms/8446033/subscribers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                api_key: KIT_API_KEY,
+                email: email
+             }),
+        }
     );
-
-    const data = await res.json();
-    console.log("[kit] response:", res.status, data);
-
-    if (!res.ok) throw new Error(data.errors?.join(", ") || "Kit API error");
-
-    return { statusCode: 200, body: "OK" };
-  } catch (err) {
-    console.error("Error in submission-created:", err);
-    return { statusCode: 500, body: err.message };
-  }
+    let responseText = await response.text();
+    console.log('response:', responseText);
+    return {
+        statusCode: 302,
+        headers: {
+            'Location': '/confirmation/',
+        },
+    }
 }
