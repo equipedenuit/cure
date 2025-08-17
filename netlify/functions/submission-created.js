@@ -1,32 +1,70 @@
-const { KIT_API_KEY, KIT_FORM_ID } = process.env;
-
-exports.handler = async (event) => {
+// netlify/functions/submission-created.js
+export async function handler(event) {
   try {
-    const body = JSON.parse(event.body);
-    const email =
-      body?.payload?.data?.email ||
-      body?.payload?.email ||
-      body?.data?.email ||
-      body?.email;
+    const { payload } = JSON.parse(event.body);
+    const email = payload.data.email;
 
-    if (!email) return { statusCode: 400, body: "Missing email" };
+    const KIT_API_KEY = process.env.KIT_API_KEY;
+    const FORM_ID = process.env.KIT_FORM_ID; // tu définis ça dans Netlify env vars
 
-    const res = await fetch(`https://api.kit.com/v4/forms/{KIT_FORM_ID}/subscribers`, {
+    console.log("[submission-created] email:", email);
+
+    // 1. Créer le subscriber en "inactive"
+    const createRes = await fetch("https://api.kit.com/v4/subscribers", {
       method: "POST",
       headers: {
         "X-Kit-Api-Key": KIT_API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email_address: email })
+      body: JSON.stringify({
+        email_address: email,
+        state: "inactive", // <= clé pour l'incentive email
+      }),
     });
 
-    const json = await res.json();
-    console.log("[kit] add-to-form:", res.status, json);
+    const createData = await createRes.json();
+    console.log("[kit] create subscriber", createRes.status, createData);
 
-    if (!res.ok) return { statusCode: 500, body: "Error subscribing to form" };
-    return { statusCode: 200, body: "OK" };
-  } catch (e) {
-    console.error(e);
-    return { statusCode: 500, body: "Server error" };
+    if (!createRes.ok) {
+      throw new Error("Failed to create subscriber");
+    }
+
+    const subId = createData.data?.id;
+    if (!subId) {
+      throw new Error("No subscriber ID returned");
+    }
+
+    // 2. Ajouter le subscriber au form
+    const addRes = await fetch(
+      `https://api.kit.com/v4/forms/${FORM_ID}/subscribers/${subId}`,
+      {
+        method: "POST",
+        headers: {
+          "X-Kit-Api-Key": KIT_API_KEY,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          referrer: "https://curerecs.net",
+        }),
+      }
+    );
+
+    const addData = await addRes.json();
+    console.log("[kit] add-to-form", addRes.status, addData);
+
+    if (!addRes.ok) {
+      throw new Error("Failed to add subscriber to form");
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ success: true }),
+    };
+  } catch (err) {
+    console.error("Error in submission-created:", err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.message }),
+    };
   }
-};
+}
