@@ -5,4 +5,4 @@ youtube_id: HXie0A23LM0
 ---
 {% include yt.html id="HXie0A23LM0" %}
 
-Une preuve de plus que les Français savent y faire en matière de techno. 6 min hypnotiques de descente en enfer, accompagnée par une cowbell folle.
+> Marcloid uses plonking new-age synths—picture the best preset on the most expensive keyboard at the oldest mall in your town—with black-metal shrieks and Weather Channel jazz in a way that feels both uncanny and caked in the dust of an imaginary past.
