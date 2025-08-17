@@ -75,7 +75,11 @@ form[name="newsletter"] button:hover{ background:#f5f5f5; }
 {% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
 
 <!-- Newsletter form -->
-<form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field"
+<form name="newsletter"
+      method="POST"
+      action="/confirmation/"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
       style="margin: 1rem 0 2rem 0; text-align:center;">
   <input type="hidden" name="form-name" value="newsletter">
   <p style="display:none;">
