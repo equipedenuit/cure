@@ -8,71 +8,78 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
+  /* Gabarit proche LiveHouse */
   :root{
-    /* gabarit proche de LiveHouse */
-    --wrap: 1024px;      /* largeur totale du site */
-    --left: 180px;       /* colonne méta (gauche) */
-    --gap: 32px;         /* gouttière entre colonnes */
+    --wrap: 1000px;   /* largeur totale du site */
+    --left: 200px;    /* colonne méta */
+    --gap: 24px;      /* gouttière */
+    --right: 700px;   /* largeur colonne contenu */
   }
 
-  /* Typo “system UI” plus compacte */
   html,body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    font-size:16px;
+    font-size:15px;            /* + compact */
     line-height:1.55;
-    color:#111;
-    background:#fff;
+    color:#111; background:#fff;
   }
 
   .wrap{max-width:var(--wrap);margin:0 auto;padding:0 16px;}
 
   /* Header */
-  .site-head{display:flex;align-items:center;gap:36px;padding:28px 0 18px;border-bottom:1px solid #eee;}
-  .brand{font-weight:800;font-size:32px;letter-spacing:.2px}
+  .site-head{display:flex;align-items:center;gap:32px;padding:22px 0 14px;border-bottom:1px solid #eee;}
+  .brand{font-weight:800;font-size:28px;letter-spacing:.1px}
   .brand:before{content:"— ";font-weight:700;margin-right:6px;}
-  .nav a{margin-right:24px;text-decoration:none;color:#111}
+  .nav a{margin-right:22px;text-decoration:none;color:#111}
   .nav a[aria-current="page"]{font-weight:700}
 
-  /* Grille 2 colonnes : meta | contenu */
+  /* Grille : méta | contenu */
   .post-row{
     display:grid;
-    grid-template-columns: var(--left) var(--gap) 1fr;
-    align-items:start;
+    grid-template-columns: var(--left) var(--gap) var(--right);
     gap:0;
-    padding:28px 0 36px;
+    padding:18px 0 26px;
   }
+
   .meta{
     grid-column:1/2;
-    font-size:13px; color:#666;
+    font-size:12.5px;
+    color:#666;
   }
-  .meta .sep{display:block;width:18px;border-top:3px solid #111;margin:8px 0 10px;}
+  .meta .sep{display:block;width:16px;border-top:3px solid #111;margin:8px 0 10px;}
   .meta a{color:#333;text-decoration:none;border-bottom:1px solid #ddd}
   .meta a:hover{border-bottom-color:#333}
 
-  .post{grid-column:3/4; max-width:720px;}
-  .post h2{
-    font-size:28px; line-height:1.25; font-weight:800; margin:0 0 8px 0;
+  .post{
+    grid-column:3/4;
+    max-width:var(--right);
   }
-  .post .date{display:none;} /* pas de date dans l’article */
+  .post h2{
+    margin:0 0 8px 0;
+    font-size:26px;          /* plus petit, compact */
+    line-height:1.22;
+    font-weight:800;
+  }
+  .post .date{display:none;}  /* pas de date dans l’article */
 
-  /* Médias */
+  /* Médias parfaitement alignés sur la colonne contenu */
   iframe{width:100%;max-width:100%;aspect-ratio:16/9;height:auto;display:block}
   img,video{max-width:100%;height:auto;display:block}
 
   /* Pager */
-  .pager{display:flex;justify-content:space-between;margin:24px 0 40px}
+  .pager{display:flex;justify-content:space-between;margin:18px 0 32px}
   .pager a{text-decoration:none}
 
-  /* Cacher l’aperçu “email” sur le web (on ne garde que l’iframe) */
-  @media screen { .email-preview{display:none} }
+  /* Ne montrer l’image fallback que dans l’email, pas sur le web */
+  @media screen {.email-preview{display:none}}
 
   /* Mobile */
   @media (max-width: 768px){
-    .post-row{grid-template-columns: 1fr; gap:12px;}
+    :root{ --wrap: 100%; --left: 1fr; --gap:12px; --right: 1fr; }
+    .post-row{grid-template-columns:1fr; gap:12px;}
     .meta{order:-1; display:flex; align-items:center; gap:10px;}
-    .meta .sep{margin:0 10px 0 0}
-    .post{grid-column:1/-1; max-width:100%}
-    .post h2{font-size:24px}
+    .meta .sep{margin:0 8px 0 0}
+    .post{max-width:100%}
+    .post h2{font-size:22px}
   }
 </style>
 
