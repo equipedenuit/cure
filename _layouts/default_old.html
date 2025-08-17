@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    /* Rendu proche Tumblr */
+   body {
+  font-family: "Times New Roman", serif;
+  font-size: 0.88em;   /* comme sur Tumblr */
+  max-width: 540px;    /* largeur colonne Tumblr */
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  line-height: 1.5;
+  color: #111;
+  background: #fff;
+}
+
+    h1{
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 .25rem 0;
+      letter-spacing: .2px;
+    }
+
+    .subtitle{
+      text-align: center;
+      font-style: italic;
+      opacity: .8;
+      margin: 0 0 1rem 0;
+    }
+
+   a {
+  color: #0000EE;       /* bleu HTML classique */
+  text-decoration: underline;
+}
+a:visited {
+  color: #551A8B;       /* violet standard pour les liens visités */
+}
+  .pager{display:flex;justify-content:space-between;gap:1rem;margin:2rem 0}
+  .pager .prev,.pager .next{color:#0000EE;text-decoration:underline}
+
+/* Citations (blockquote) */
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid #000;  /* trait noir, sobre */
+  font-style: italic;
+  color: #555;                  /* gris doux, pas flashy */
+  line-height: 1.5;
+}
+blockquote footer {
+  margin-top: 0.5rem;
+  font-style: normal;
+  font-size: 0.9em;
+  color: #333;
+}
+
+blockquote footer a {
+  color: #333;
+  text-decoration: underline;
+}
+
+    article{ margin: 0 0 3rem 0; }
+    article h2{ font-size: 1.25rem; margin: .25rem 0; }
+    .meta{ font-size: .9rem; color: #444; margin-bottom: .75rem; }
+
+    hr{ border: 0; border-top: 1px solid #ddd; margin: 2rem 0; }
+
+  @media screen {
+    .email-preview { display: none; }
+  }
+
+    /* Embeds responsives (YouTube, Mixcloud…) */
+    iframe{
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;  /* écrase la hauteur fixe */
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    img, video{ max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+/* ===== Formulaire d’abonnement ===== */
+#subscribe {
+  width: 100%;              /* suit la largeur du body */
+  margin: 1.5rem 0 2rem;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#subscribe form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  flex-wrap: nowrap;        /* desktop : tout sur une seule ligne */
+}
+
+#subscribe .sub-label {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin: 0;
+  font: inherit;
+}
+
+/* Reset générique */
+#subscribe input[type="email"],
+#subscribe button {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font: inherit;
+  line-height: 1.2;
+  min-height: 44px;         /* tap targets accessibles */
+}
+
+/* Input */
+#subscribe input[type="email"] {
+  flex: 1 1 auto;           /* prend l’espace restant */
+  min-width: 0;             /* empêche le dépassement */
+  padding: .5rem .75rem;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  font-size: 16px;          /* anti zoom iOS */
+}
+
+/* Bouton */
+#subscribe button {
+  flex: 0 0 auto;
+  padding: .5rem 1rem;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#subscribe button:hover {
+  background: #000;
+  color: #fff;
+}
+#subscribe button:disabled {
+  background: #f5f5f5;
+  color: #000;
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* ===== Responsive ===== */
+/* Tablet : label au-dessus si ça manque de place */
+@media (max-width: 900px) {
+  #subscribe form {
+    flex-wrap: wrap;
+  }
+  #subscribe .sub-label {
+    flex: 1 1 100%;
+    text-align: center;
+    white-space: normal;
+    margin-bottom: .5rem;
+  }
+}
+
+/* Mobile : input et bouton en pleine largeur */
+@media (max-width: 520px) {
+  #subscribe input[type="email"],
+  #subscribe button {
+    width: 100%;
+  }
+}
+
+    
+  </style>
+</head>
+<body>
+<h1>{{ site.title }}</h1>
+{% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
+
+
+  <div id="subscribe">
+  <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/confirmation/">
+    <input type="hidden" name="form-name" value="newsletter">
+    <p style="display:none;"><label>Ne pas remplir : <input name="bot-field"></label></p>
+
+    <label for="email" class="sub-label">Recevoir les nouveaux posts par email</label>
+    <input id="email" name="email" type="email" required placeholder="votre@email.com" aria-label="Adresse email">
+    <button type="submit" aria-label="S’abonner">S’abonner</button>
+  </form>
+</div>
+
+
+
+
+
+
+  {{ content }}
+
+
+</body>
+</html>
