@@ -10,16 +10,17 @@ exports.handler = async (event) => {
     console.log(`Received a submission: ${email}`);
 
     // === ConvertKit / Kit API V3 (exactement comme dans l’article) ===
-    const endpoint = `https://api.convertkit.com/v3/forms/${FORM_ID}/subscribe`;
-
-    const resp = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        api_key: EMAIL_TOKEN,
-        email: email,
-      }),
-    });
+const endpoint = `https://api.kit.com/v4/forms/${FORM_ID}/subscribers`;
+const resp = await fetch(endpoint, {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${EMAIL_TOKEN}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    email_address: email,  // <= nouveau nom de champ en V4
+  }),
+});
 
     const text = await resp.text();
     console.log("ConvertKit response:", resp.status, text);
