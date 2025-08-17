@@ -108,7 +108,7 @@ async function newsletterSubmit(e) {
   const body = encode(Object.fromEntries(fd.entries()));
 
   try {
-    const res = await fetch("https://curerecs.net/", {
+    const res = await fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body
