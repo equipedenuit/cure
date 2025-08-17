@@ -11,7 +11,7 @@ exports.handler = async (event) => {
 
     if (!email) return { statusCode: 400, body: "Missing email" };
 
-    const res = await fetch(`https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscribers`, {
+    const res = await fetch(`https://api.kit.com/v4/forms/{KIT_FORM_ID}/subscribers`, {
       method: "POST",
       headers: {
         "X-Kit-Api-Key": KIT_API_KEY,
