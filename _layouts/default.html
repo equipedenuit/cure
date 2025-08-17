@@ -3,28 +3,62 @@
 <head>
   <meta charset="utf-8">
   <title>{{ page.title | default: site.title }}</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
-    body{font-family:"Times New Roman",serif;max-width:540px;margin:0 auto;padding:2rem}
-    h1{font-size:2.6rem;text-align:center;margin:0 0 .5rem}
-    em.subtitle{display:block;text-align:center;margin:0 0 1rem}
-    nav.links{ text-align:center; margin: .5rem 0 2rem; }
-    nav.links a{color:blue;text-decoration:underline;margin:0 .25rem}
-    article{margin:0 auto 3rem}
-    article h2{font-size:1.2rem;margin:.5rem 0}
-    hr{border:0;border-top:1px solid #000;opacity:.25;margin:2.5rem 0}
-    figure{margin:0}
-    iframe{max-width:100%;height:auto;}
-    .meta{color:#333;font-size:.9rem;margin:.25rem 0 1rem}
+    /* Rendu proche Tumblr */
+    body{
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      max-width: 540px;              /* largeur colonne Tumblr */
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      line-height: 1.5;
+      color: #111;
+      background: #fff;
+    }
+
+    h1{
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 .25rem 0;
+      letter-spacing: .2px;
+    }
+
+    .subtitle{
+      text-align: center;
+      font-style: italic;
+      opacity: .8;
+      margin: 0 0 1rem 0;
+    }
+
+    a{ color: #06c; text-decoration: underline; }
+
+    article{ margin: 0 0 3rem 0; }
+    article h2{ font-size: 1.25rem; margin: .25rem 0; }
+    .meta{ font-size: .9rem; color: #444; margin-bottom: .75rem; }
+
+    hr{ border: 0; border-top: 1px solid #ddd; margin: 2rem 0; }
+
+    /* Embeds responsives (YouTube, Mixcloud…) */
+    iframe{
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;  /* écrase la hauteur fixe */
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    img, video{ max-width: 100%; height: auto; display: block; margin: 0 auto; }
   </style>
 </head>
 <body>
-  <h1>{{ site.title }}</h1>
-  {% if site.description %}<em class="subtitle">{{ site.description }}</em>{% endif %}
-  <nav class="links">
-    <a href="/mixtapes/">Mixtapes</a>, <a href="/playlist/">La Playlist</a>,
-    <a href="https://facebook.com">Facebook</a>, <a href="https://soundcloud.com">Soundcloud</a>
-  </nav>
+  {% if page.url == "/" or page.url == "/index.html" %}
+    <h1>{{ site.title }}</h1>
+    {% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
+  {% endif %}
+
   {{ content }}
 </body>
 </html>
