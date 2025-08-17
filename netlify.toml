@@ -2,5 +2,7 @@
   base = "."
 
 [functions]
-  directory = "netlify/functions/"
-  node_bundler = "esbuild"    # recommandé pour node-fetch v3 / ESM
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  node_version = "18"
+
