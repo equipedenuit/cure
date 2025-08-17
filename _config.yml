@@ -1,5 +1,7 @@
 title: Cure
 description: "The emotions that good hunters need to cultivate are love and service more than courage. The sentiments of the hunt then become translated into art."
+url: https://curerecs.net
+baseurl: ""          # très important : vide pour Netlify (pas "/cure")
 plugins:
   - jekyll-feed
   - jekyll-paginate
