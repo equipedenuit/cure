@@ -2,11 +2,24 @@
 layout: default
 ---
 
-<article>
-  <h2>{{ page.title }}</h2>
-  {% if page.date %}
-    <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
-  {% endif %}
+<section class="post-row">
+  <div class="meta">
+    <div>{{ page.date | date: "%d/%m/%Y" }}</div>
+    <span class="sep"></span>
+    {% if page.categories and page.categories.size > 0 %}
+      <div>
+        {% for c in page.categories %}
+          <a href="{{ '/categories/#' | append: c | relative_url }}">{{ c }}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    <span class="sep"></span>
+    <div><a href="#comments">Poster un commentaire</a></div>
+  </div>
 
-  {{ content }}
-</article>
+  <article class="post">
+    <h2>{{ page.title }}</h2>
+    <div class="date">{{ page.date | date: "%-d %B %Y" }}</div>
+    {{ content }}
+  </article>
+</section>
