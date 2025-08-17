@@ -86,15 +86,16 @@ blockquote footer a {
 
     img, video{ max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
-/* ===== Abonnement (scopé) ===== */
+/* ===== Abonnement – même largeur que tes articles ===== */
 #subscribe{
-  max-width: 720px;                 /* même largeur que ta colonne */
-  margin: 1.5rem auto 2rem;
-  padding: 0 1rem;                  /* même padding latéral que le reste */
+  max-width: 740px;                 /* aligne exactement avec tes posts/vidéos */
+  margin: 2rem auto;
+  padding: 0 1rem;                  /* même padding latéral */
+  box-sizing: border-box;
 }
 
 /* Ligne principale */
-#subscribe .row{
+#subscribe form{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,15 +103,15 @@ blockquote footer a {
   flex-wrap: nowrap;                /* desktop: tout sur une ligne */
 }
 
-/* Label compact (ne force pas à la ligne) */
-#subscribe .label{
+/* Label compact */
+#subscribe .sub-label{
   flex: 0 0 auto;
   white-space: nowrap;
   margin: 0;
   font: inherit;
 }
 
-/* Reset anti styles bizarres (notamment aspect-ratio) */
+/* Reset anti héritages bizarres (ex: aspect-ratio) */
 #subscribe input[type="email"],
 #subscribe button{
   box-sizing: border-box;
@@ -119,22 +120,22 @@ blockquote footer a {
   aspect-ratio: auto !important;
 }
 
-/* Input — look web 1.0 */
+/* Input — web 1.0 */
 #subscribe input[type="email"]{
-  flex: 1 1 0;                      /* prend l'espace restant */
-  min-width: 0;                     /* IMPORTANT: n’impose pas de largeur mini → évite le dépassement */
+  flex: 1 1 auto;                   /* prend l’espace restant */
+  min-width: 0;                     /* évite de forcer un dépassement */
   padding: .5rem .75rem;
   border: 1px solid #000;
   background: #fff;
   color: #000;
   border-radius: 0;
   font: inherit;
-  font-size: 16px;                  /* empêche l’auto-zoom iOS */
+  font-size: 16px;                  /* anti auto-zoom iOS */
   line-height: 1.2;
   min-height: 44px;
 }
 
-/* Bouton — look web 1.0 */
+/* Bouton — web 1.0 */
 #subscribe button{
   flex: 0 0 auto;                   /* reste à droite, ne s’étire pas */
   padding: .5rem 1rem;
@@ -151,32 +152,30 @@ blockquote footer a {
 #subscribe button:disabled{ background:#f5f5f5; color:#000; opacity:.6; cursor:not-allowed; }
 
 /* ===== Responsive ===== */
-
-/* Petit desktop / tablette : le label passe au-dessus,
-   puis input et bouton restent sur la même LIGNE (bouton à droite) */
+/* Petit desktop / tablette : label au-dessus, input + bouton sur une ligne */
 @media (max-width: 900px){
-  #subscribe .row{ flex-wrap: wrap; }
-  #subscribe .label{
+  #subscribe form{ flex-wrap: wrap; }
+  #subscribe .sub-label{
     flex: 1 1 100%;
     text-align: center;
     white-space: normal;
   }
   #subscribe input[type="email"]{
-    flex: 1 1 auto;                /* input se redimensionne proprement */
+    flex: 1 1 auto;                /* l’input se redimensionne proprement */
   }
   #subscribe button{
-    flex: 0 0 auto;                /* reste à droite sur la même ligne */
-    width: auto;
+    width: auto;                   /* le bouton reste à droite si ça tient */
   }
 }
 
-/* Mobile : on empile input puis bouton à 100% */
+/* Mobile : on empile input puis bouton en pleine largeur */
 @media (max-width: 520px){
   #subscribe input[type="email"],
   #subscribe button{
     width: 100%;
   }
 }
+
 
     
   </style>
@@ -185,24 +184,18 @@ blockquote footer a {
 <h1>{{ site.title }}</h1>
 {% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
 
-<form name="newsletter"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      action="/confirmation/">
 
-<div id="subscribe">
+  <div id="subscribe">
   <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/confirmation/">
     <input type="hidden" name="form-name" value="newsletter">
     <p style="display:none;"><label>Ne pas remplir : <input name="bot-field"></label></p>
 
-    <div class="row">
-      <label for="email" class="label">Recevoir les nouveaux posts par email</label>
-      <input id="email" name="email" type="email" required placeholder="votre@email.com" aria-label="Adresse email">
-      <button type="submit" aria-label="S’abonner">S’abonner</button>
-    </div>
+    <label for="email" class="sub-label">Recevoir les nouveaux posts par email</label>
+    <input id="email" name="email" type="email" required placeholder="votre@email.com" aria-label="Adresse email">
+    <button type="submit" aria-label="S’abonner">S’abonner</button>
   </form>
 </div>
+
 
 
 
