@@ -122,13 +122,16 @@ async function newsletterSubmit(e) {
 }
 </script>
 
+  <!-- Formulaire fantôme pour que Netlify détecte "newsletter" -->
+<form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="newsletter">
+  <input type="email" name="email">
+  <input type="text" name="bot-field">
+</form>
 
 
   {{ content }}
-  <!-- Form fantôme pour Netlify (détection au build) -->
-<form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
-  <input type="email" name="email">
-</form>
+
 
 </body>
 </html>
