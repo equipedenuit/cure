@@ -1,0 +1,8 @@
+---
+layout: default
+---
+<article>
+  <h2>{{ page.title }}</h2>
+  {% if page.date %}<div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>{% endif %}
+  {{ content }}
+</article>
