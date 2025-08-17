@@ -3,11 +3,25 @@ layout: default
 title: "Cure"
 ---
 
-{% for post in site.posts %}
+{% for post in paginator.posts %}
   <article>
     <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
     <div class="meta">{{ post.date | date: "%-d %B %Y" }}</div>
-    {{ post.content }}  <!-- contenu complet -->
+    {{ post.content }}
   </article>
   {% unless forloop.last %}<hr>{% endunless %}
 {% endfor %}
+
+<nav class="pager">
+  {% if paginator.previous_page %}
+    {% if paginator.previous_page == 1 %}
+      <a class="prev" href="{{ '/' | relative_url }}">« Back in time</a>
+    {% else %}
+      <a class="prev" href="{{ '/page' | append: paginator.previous_page | append: '/' | relative_url }}">« Back in time</a>
+    {% endif %}
+  {% endif %}
+
+  {% if paginator.next_page %}
+    <a class="next" href="{{ '/page' | append: paginator.next_page | append: '/' | relative_url }}">Forward in time »</a>
+  {% endif %}
+</nav>
