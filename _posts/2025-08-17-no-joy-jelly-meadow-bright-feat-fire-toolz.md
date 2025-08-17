@@ -6,5 +6,4 @@ youtube_id: HXie0A23LM0
 {% include yt.html id="HXie0A23LM0" %}
 
 > Marcloid uses plonking new-age synths—picture the best preset on the most expensive keyboard at the oldest mall in your town—with black-metal shrieks and Weather Channel jazz in a way that feels both uncanny and caked in the dust of an imaginary past.
-
->  [Pitchfork.com](https://pitchfork.com/reviews/albums/no-joy-bugland/)
+> <footer>Source: <a href="https://pitchfork.com/reviews/albums/no-joy-bugland/">Pitchfork</a></footer> 
