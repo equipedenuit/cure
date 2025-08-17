@@ -3,24 +3,46 @@ layout: default
 title: "Cure"
 ---
 
-<section class="post-row">
-  <div class="meta">
-    <div>{{ page.date | date: "%d/%m/%Y" }}</div>
-    <span class="sep"></span>
-    {% if page.categories and page.categories.size > 0 %}
-      <div>
-        {% for c in page.categories %}
-          <a href="{{ '/categories/#' | append: c | relative_url }}">{{ c }}</a>{% unless forloop.last %}, {% endunless %}
-        {% endfor %}
-      </div>
-    {% endif %}
-    <span class="sep"></span>
-    <div><a href="#comments">Poster un commentaire</a></div>
-  </div>
+{% assign posts_list = paginator.posts | default: site.posts %}
 
-  <article class="post">
-    <h2>{{ page.title }}</h2>
-    <div class="date">{{ page.date | date: "%-d %B %Y" }}</div>
-    {{ content }}
-  </article>
-</section>
+{% for post in posts_list %}
+  <section class="post-row">
+    <div class="meta">
+      <div>{{ post.date | date: "%d/%m/%Y" }}</div>
+      <span class="sep"></span>
+      {% if post.categories and post.categories.size > 0 %}
+        <div>
+          {% for c in post.categories %}
+            <a href="{{ '/categories/#' | append: c | relative_url }}">{{ c }}</a>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      <span class="sep"></span>
+      <div><a href="{{ post.url | relative_url }}#comments">Poster un commentaire</a></div>
+    </div>
+
+    <article class="post">
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <div class="date">{{ post.date | date: "%-d %B %Y" }}</div>
+      {{ post.content }}
+    </article>
+  </section>
+{% endfor %}
+
+<nav class="pager">
+  <div>
+    {% if paginator.previous_page %}
+      {% if paginator.previous_page == 1 %}
+        <a href="{{ '/' | relative_url }}">« Billets plus récents</a>
+      {% else %}
+        <a href="{{ '/page' | append: paginator.previous_page | append: '/' | relative_url }}">« Billets plus récents</a>
+      {% endif %}
+    {% endif %}
+  </div>
+  <div>
+    {% if paginator.next_page %}
+      <a href="{{ '/page' | append: paginator.next_page | append: '/' | relative_url }}">Billets plus anciens »</a>
+    {% endif %}
+  </div>
+</nav>
+
