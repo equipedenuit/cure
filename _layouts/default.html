@@ -96,5 +96,10 @@ form[name="newsletter"] button:hover{ background:#f5f5f5; }
 
 
   {{ content }}
+  <!-- Form fantôme pour Netlify (détection au build) -->
+<form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
+  <input type="email" name="email">
+</form>
+
 </body>
 </html>
