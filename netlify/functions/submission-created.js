@@ -1,90 +1,81 @@
 // netlify/functions/submission-created.js
-// Node 18+: fetch global
+// Node 18+ : fetch global
 const { KIT_API_KEY, KIT_FORM_ID } = process.env;
 
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
-
-    // Netlify Forms envoie souvent ici:
-    // body.payload.data = { email: "..." }
     const email =
       body?.payload?.data?.email ||
       body?.payload?.email ||
       body?.data?.email ||
       body?.email;
 
-    console.log("[submission-created] incoming payload:", JSON.stringify(body));
-    console.log("[submission-created] parsed email:", email);
-
     if (!email) {
+      console.error("[kit] Missing email in payload:", body);
       return { statusCode: 400, body: "Missing email" };
     }
 
-    // 1) Créer (ou récupérer) le subscriber
+    // 1) Créer (ou upsert) le subscriber (V4, X-Kit-Api-Key + email_address)
     const subRes = await fetch("https://api.kit.com/v4/subscribers", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${KIT_API_KEY}`,
+        "X-Kit-Api-Key": KIT_API_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email_address: email }),
     });
     const subJson = await subRes.json();
-    console.log("[kit] create subscriber status:", subRes.status, subJson);
+    console.log("[kit] create subscriber:", subRes.status, subJson);
 
     if (!subRes.ok) {
-      // Si déjà existant, Kit peut renvoyer une 409/422 selon les cas
       return { statusCode: 500, body: "Error creating subscriber" };
     }
 
     const subscriberId = subJson?.data?.id;
     if (!subscriberId) {
-      console.error("[kit] no subscriber id", subJson);
+      console.error("[kit] No subscriber ID returned:", subJson);
       return { statusCode: 500, body: "No subscriber ID" };
     }
 
-    // 2) Abonner ce subscriber AU BON ENDPOINT V4 :
-    //    /v4/forms/{form_id}/subscribers   (et non /subscriptions)
-    const formRes = await fetch(
-      `https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscribers`,
+    // 2) Abonner au form (V4)
+    // Option A: par ID (chemin /subscribers/{id})
+    let formRes = await fetch(
+      `https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscribers/${subscriberId}`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${KIT_API_KEY}`,
+          "X-Kit-Api-Key": KIT_API_KEY,
           "Content-Type": "application/json",
         },
-        // Deux options possibles côté V4 :
-        //  - passer l'ID
-        //  - ou repasser l'email_address
-        body: JSON.stringify({ subscriber_id: subscriberId }),
+        body: JSON.stringify({}), // corps vide accepté
       }
     );
-    const formJson = await formRes.json();
-    console.log("[kit] add to form status:", formRes.status, formJson);
 
+    // si l'implémentation préfère par email_address, fallback Option B:
     if (!formRes.ok) {
-      // Fallback : tenter par email_address
-      const retry = await fetch(
+      const tryByEmail = await fetch(
         `https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscribers`,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${KIT_API_KEY}`,
+            "X-Kit-Api-Key": KIT_API_KEY,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email_address: email }),
         }
       );
-      const retryJson = await retry.json();
-      console.log("[kit] add to form (retry by email) status:", retry.status, retryJson);
-
-      if (!retry.ok) {
+      const tryByEmailJson = await tryByEmail.json();
+      console.log("[kit] add to form (by email):", tryByEmail.status, tryByEmailJson);
+      if (!tryByEmail.ok) {
         return { statusCode: 500, body: "Error subscribing to form" };
       }
+    } else {
+      const formJson = await formRes.json();
+      console.log("[kit] add to form (by id):", formRes.status, formJson);
     }
 
-    // Succès (la redirection finale est gérée par ton <form action="/confirmation/">)
+    // Réponse OK (ta redirection utilisateur est gérée par l’attribut action du <form>)
     return { statusCode: 200, body: "OK" };
   } catch (e) {
     console.error("[submission-created] unhandled error:", e);
