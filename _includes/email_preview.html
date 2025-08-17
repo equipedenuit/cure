@@ -1,0 +1,21 @@
+{%- assign target_url = page.url | absolute_url -%}
+
+{%- comment -%}
+Priorité :
+1) image: (URL absolue ou relative)
+2) youtube_id: (génère la miniature)
+{%- endcomment -%}
+
+{%- if page.image and page.image != "" -%}
+  {%- assign preview_src = page.image | absolute_url -%}
+{%- elsif page.youtube_id and page.youtube_id != "" -%}
+  {%- assign preview_src = "https://img.youtube.com/vi/" | append: page.youtube_id | append: "/hqdefault.jpg" -%}
+{%- endif -%}
+
+{%- if preview_src -%}
+<p class="email-preview" style="margin:0 0 16px 0;">
+  <a href="{{ target_url }}">
+    <img src="{{ preview_src }}" width="540" alt="{{ page.title | escape }}" style="display:block;border:0;width:100%;max-width:540px;height:auto;">
+  </a>
+</p>
+{%- endif -%}
