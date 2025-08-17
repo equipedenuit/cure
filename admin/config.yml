@@ -2,15 +2,14 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "assets/uploads"      # où les fichiers sont stockés dans le repo
-public_folder: "/assets/uploads"    # comment ils sont référencés dans le site
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
 
 site_url: "/"   # ajuste si besoin
 
 collections:
   - name: "posts"
     label: "Articles"
-    label_singular: "Article"
     folder: "_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -18,4 +17,7 @@ collections:
     fields:
       - {label: "Titre", name: "title", widget: "string"}
       - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Image (pour email/RSS)", name: "image", widget: "image", required: false}
+      - {label: "YouTube ID (optionnel)", name: "youtube_id", widget: "string", required: false, hint: "Ex: dQw4w9WgXcQ"}
       - {label: "Contenu", name: "body", widget: "markdown"}
+
