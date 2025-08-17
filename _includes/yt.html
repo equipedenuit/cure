@@ -1,0 +1,16 @@
+{% assign id = include.id %}
+<!-- Affichage web (iframe) -->
+<div class="yt-embed" style="margin:1rem 0">
+  <iframe src="https://www.youtube.com/embed/{{ id }}"
+          title="YouTube video" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+</div>
+
+<!-- Fallback email (image cliquable) -->
+<div class="email-preview" style="margin:1rem 0">
+  <a href="https://www.youtube.com/watch?v={{ id }}">
+    <img src="https://img.youtube.com/vi/{{ id }}/hqdefault.jpg"
+         alt="Voir la vidéo sur YouTube" style="max-width:100%;height:auto;border:0;">
+  </a>
+</div>
