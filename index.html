@@ -7,9 +7,6 @@ title: "Cure"
   <article>
     <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
     <div class="meta">{{ post.date | date: "%-d %B %Y" }}</div>
-    {% if post.youtube_id %}
-      {% include yt.html id=post.youtube_id %}
-    {% endif %}
     {{ post.content }}
   </article>
   {% unless forloop.last %}<hr>{% endunless %}
