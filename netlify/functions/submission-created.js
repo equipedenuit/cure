@@ -1,70 +1,36 @@
 // netlify/functions/submission-created.js
 export async function handler(event) {
   try {
-    const { payload } = JSON.parse(event.body);
+    const payload = JSON.parse(event.body).payload;
     const email = payload.data.email;
+    if (!email) throw new Error("No email in submission payload");
 
-    const KIT_API_KEY = process.env.KIT_API_KEY;
-    const FORM_ID = process.env.KIT_FORM_ID; // tu définis ça dans Netlify env vars
+    console.log("[kit] new submission:", email);
 
-    console.log("[submission-created] email:", email);
-
-    // 1. Créer le subscriber en "inactive"
-    const createRes = await fetch("https://api.kit.com/v4/subscribers", {
-      method: "POST",
-      headers: {
-        "X-Kit-Api-Key": KIT_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email_address: email,
-        state: "inactive", // <= clé pour l'incentive email
-      }),
-    });
-
-    const createData = await createRes.json();
-    console.log("[kit] create subscriber", createRes.status, createData);
-
-    if (!createRes.ok) {
-      throw new Error("Failed to create subscriber");
-    }
-
-    const subId = createData.id;
-    if (!subId) {
-      throw new Error("No subscriber ID returned");
-    }
-
-    // 2. Ajouter le subscriber au form
-    const addRes = await fetch(
-      `https://api.kit.com/v4/forms/${FORM_ID}/subscribers/${subId}`,
+    const res = await fetch(
+      `https://api.kit.com/v4/forms/${process.env.KIT_FORM_ID}/subscribers`,
       {
         method: "POST",
         headers: {
-          "X-Kit-Api-Key": KIT_API_KEY,
+          "X-Kit-Api-Key": process.env.KIT_API_KEY,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          referrer: "https://curerecs.net",
+          email_address: email,
+          state: "inactive", // ✅ force confirmation email
+          referrer: payload.site_url || "https://curerecs.net",
         }),
       }
     );
 
-    const addData = await addRes.json();
-    console.log("[kit] add-to-form", addRes.status, addData);
+    const data = await res.json();
+    console.log("[kit] response:", res.status, data);
 
-    if (!addRes.ok) {
-      throw new Error("Failed to add subscriber to form");
-    }
+    if (!res.ok) throw new Error(data.errors?.join(", ") || "Kit API error");
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true }),
-    };
+    return { statusCode: 200, body: "OK" };
   } catch (err) {
     console.error("Error in submission-created:", err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
-    };
+    return { statusCode: 500, body: err.message };
   }
 }
