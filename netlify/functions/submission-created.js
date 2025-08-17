@@ -8,11 +8,11 @@ export async function handler(event) {
     console.log("[kit] new submission:", email);
 
     const res = await fetch(
-      `https://api.kit.com/v4/forms/${process.env.KIT_FORM_ID}/subscribers`,
+      `https://api.kit.com/v4/forms/${KIT_FORM_ID}/subscribers`,
       {
         method: "POST",
         headers: {
-          "X-Kit-Api-Key": process.env.KIT_API_KEY,
+          "X-Kit-Api-Key": KIT_API_KEY,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
