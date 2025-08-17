@@ -1,9 +1,13 @@
+
 ---
 layout: default
 ---
+
 <article>
   <h2>{{ page.title }}</h2>
-  {% if page.date %}<div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>{% endif %}
+  {% if page.date %}
+    <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
+  {% endif %}
 
   {%- if page.youtube_id and not content contains '<iframe' -%}
     {% include yt.html id=page.youtube_id %}
@@ -11,4 +15,3 @@ layout: default
 
   {{ content }}
 </article>
-
