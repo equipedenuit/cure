@@ -65,50 +65,62 @@ blockquote footer a {
 }
 
 
-/* Conteneur du formulaire */
-form[name="newsletter"] {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  justify-content: center;
-  margin: 1rem 0;
+/* Ligne du formulaire */
+.nl-row{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;     /* aligne verticalement label + input + bouton */
+  gap:.5rem;
+  margin:1rem 0 2rem;
 }
 
-/* Champ email */
-form[name="newsletter"] input[type="email"] {
-  flex: 1 1 250px;
-  padding: .5rem .75rem;
-  border: 1px solid #000;
-  background: #fff;
-  color: #000;
-  border-radius: 0;         /* look carré */
+/* Label compact, sur une ligne */
+.nl-label{
+  white-space:nowrap;
+  margin:0;               /* pas de décalage vertical */
   font: inherit;
-  max-width: 300px;
 }
 
-/* Bouton */
-form[name="newsletter"] button {
-  padding: .5rem 1rem;
-  border: 1px solid #000;
-  background: #fff;
-  color: #000;
-  border-radius: 0;         /* look carré */
-  font: inherit;
-  cursor: pointer;
+/* Champ email (style carré web 1.0) */
+form[name="newsletter"] input[type="email"]{
+  flex:1 1 260px;
+  max-width:360px;
+  padding:.5rem .75rem;
+  border:1px solid #000;
+  background:#fff;
+  color:#000;
+  border-radius:0;
+  font:inherit;
+  font-size:16px;         /* évite l’auto-zoom iOS */
+  line-height:1.2;
+  min-height:44px;
+  box-sizing:border-box;
+  -webkit-appearance:none;
+  appearance:none;
+  aspect-ratio:auto !important;
 }
 
-/* Hover (desktop) */
-form[name="newsletter"] button:hover {
-  background: #000;
-  color: #fff;
+/* Bouton (comme avant) */
+form[name="newsletter"] button{
+  padding:.5rem 1rem;
+  border:1px solid #000;
+  background:#fff;
+  color:#000;
+  border-radius:0;
+  font:inherit;
+  cursor:pointer;
+  min-height:44px;
+  white-space:nowrap;
 }
+form[name="newsletter"] button:hover{ background:#000;color:#fff; }
+form[name="newsletter"] button:disabled{ background:#f5f5f5;color:#000;opacity:.6;cursor:not-allowed; }
 
-/* État désactivé (mobile + desktop) */
-form[name="newsletter"] button:disabled {
-  background: #f5f5f5;
-  color: #000;              /* force texte noir */
-  opacity: .6;
-  cursor: not-allowed;
+/* Mobile: label au-dessus, champs 100% */
+@media (max-width:680px){
+  .nl-label{ flex:1 1 100%; text-align:center; }
+  form[name="newsletter"] input[type="email"],
+  form[name="newsletter"] button{ width:100%; max-width:none; }
 }
 
 
@@ -145,21 +157,17 @@ form[name="newsletter"] button:disabled {
       data-netlify="true"
       netlify-honeypot="bot-field"
       action="/confirmation/">
+
   <input type="hidden" name="form-name" value="newsletter">
+  <p style="display:none;"><label>Ne pas remplir : <input name="bot-field"></label></p>
 
-  <p style="display:none;">
-    <label>Ne pas remplir : <input name="bot-field"></label>
-  </p>
-
-  <label for="email" style="display:block;margin-bottom:.5rem;">
-    Recevoir les nouveaux posts par email
-  </label>
-
-  <div class="row">
+  <div class="nl-row">
+    <label for="email" class="nl-label">Recevoir les nouveaux posts par email</label>
     <input id="email" name="email" type="email" required placeholder="votre@email.com" aria-label="Adresse email">
     <button type="submit" aria-label="S’abonner">S’abonner</button>
   </div>
 </form>
+
 
 
 
