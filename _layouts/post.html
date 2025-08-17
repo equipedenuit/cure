@@ -6,20 +6,18 @@ layout: default
   <div class="meta">
     <div>{{ page.date | date: "%d/%m/%Y" }}</div>
     <span class="sep"></span>
-    {% if page.categories and page.categories.size > 0 %}
-      <div>
-        {% for c in page.categories %}
-          <a href="{{ '/categories/#' | append: c | relative_url }}">{{ c }}</a>{% unless forloop.last %}, {% endunless %}
-        {% endfor %}
-      </div>
-    {% endif %}
-    <span class="sep"></span>
     <div><a href="#comments">Poster un commentaire</a></div>
   </div>
 
   <article class="post">
     <h2>{{ page.title }}</h2>
-    <div class="date">{{ page.date | date: "%-d %B %Y" }}</div>
+
+    {%- if page.youtube_id -%}
+      {%- unless page.content contains '<iframe' -%}
+        {%- include yt.html id=page.youtube_id -%}
+      {%- endunless -%}
+    {%- endif -%}
+
     {{ content }}
   </article>
 </section>
