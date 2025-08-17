@@ -1,4 +1,3 @@
-
 ---
 layout: default
 ---
@@ -9,9 +8,15 @@ layout: default
     <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
   {% endif %}
 
-  {%- if page.youtube_id and not content contains '<iframe' -%}
-    {% include yt.html id=page.youtube_id %}
-  {%- endif -%}
+  {%- comment -%}
+    Affiche l’embed YouTube si `youtube_id` est défini ET
+    qu’il n’y a pas déjà un <iframe> dans le contenu.
+  {%- endcomment -%}
+  {% if page.youtube_id %}
+    {% unless content contains "<iframe" %}
+      {% include yt.html id=page.youtube_id %}
+    {% endunless %}
+  {% endif %}
 
   {{ content }}
 </article>
