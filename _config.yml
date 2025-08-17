@@ -9,4 +9,10 @@ plugins:
 markdown: kramdown
 paginate: 20                 # 20 articles par page
 paginate_path: "/page:num/"  # /page2, /page3, …
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
 
