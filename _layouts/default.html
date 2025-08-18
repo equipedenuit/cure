@@ -7,66 +7,103 @@
 
   <!-- STYLE “LiveHouse-like” ultra ciblé -->
   <style>
-    /* Reset court */
-    *{box-sizing:border-box} html,body,h1,h2,h3,p,ul,li{margin:0;padding:0}
-    ul{list-style:none}
+  /* Reset court */
+  *{box-sizing:border-box}
+  html,body,h1,h2,h3,p,ul,li{margin:0;padding:0}
+  ul{list-style:none}
 
-    /* Base */
-    body{
-      background:#fff;
-      color:#000;
-      font:62.5% "Helvetica Neue", Helvetica, Arial, sans-serif; /* 10px = 1rem */
-      line-height:1.5;
-      text-align:left;
-    }
-    a{color:#000;text-decoration:none;border-bottom:1px solid #e5e5e5}
-    a:hover{border-color:#000}
+  /* Base (LiveHouse / Blogum) */
+  html{font-size:62.5%;}                 /* 1rem = 10px */
+  body{
+    background:#fff;
+    color:#000;
+    font:62.5% "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height:1;                       /* base 1.0 (le texte de contenu repasse à 1.5 plus bas) */
+    text-align:left;
+  }
+  ::selection{background:#fffdc6;color:#000;}
+  a{color:#000;text-decoration:none;border-bottom:1px solid #e5e5e5}
+  a:hover{border-color:#000}
+  a:visited{color:#000}                  /* pas de violet */
 
-    /* Wrapper global (945px) */
-    .wrapper{width:945px;margin:0 auto;min-height:100%}
+  /* Wrapper global (945px) */
+  .wrapper{width:945px;margin:0 auto;min-height:100%}
 
-    /* Header */
-    #header{padding:50px 0 28px 160px;border-bottom:1px solid #eee;position:relative}
-    .emdash{position:absolute;left:108px;top:56px;font-size:42px;font-weight:bold}
-    #header h1{font-size:4.2rem;font-weight:700;letter-spacing:0}
-    #header h1 a{border:0}
-    #access{margin:14px 0 0 0}
-    #access ul{display:flex;gap:22px;font-size:1.6rem;font-weight:700}
-    #access a{border:0}
-    #access a:hover{color:#9d9d9d}
+  /* Header */
+  #header{padding:50px 0 28px 160px;border-bottom:1px solid #eee;position:relative}
+  .emdash{position:absolute;left:108px;top:56px;font-size:4.2rem;font-weight:700;line-height:1}
+  #header h1{font-size:4.2rem;font-weight:700;letter-spacing:0}
+  #header h1 a{border:0}
+  #access{margin:14px 0 0}
+  #access ul{display:flex;gap:22px;font-size:1.6rem;font-weight:700}
+  #access a{border:0}
+  #access a:hover{color:#9d9d9d}
 
-    /* Grille de contenu */
-    .middle{padding:30px 0 140px 0}
-    #content{width:705px;float:left}
-    .sidebar{width:225px;float:right} /* non utilisée, mais garde l’équilibre */
+  /* Grille de contenu */
+  .middle{padding:30px 0 140px}
+  #content{width:705px;float:left}
+  .sidebar{width:225px;float:right} /* vide, juste pour l’équilibre */
 
-    /* Post */
-    .post{padding:0 0 45px 0;clear:both}
-    .post-meta{
-      width:145px;float:left;padding-top:12px;border-top:1px solid #e9e9e9
-    }
-    .post-meta h1{font-size:1.6rem;font-weight:700;margin:0 0 15px 0;word-wrap:break-word}
-    .post-meta h1 a{border:0}
-    .post-data{color:#9d9d9d;font-size:1.1rem}
-    .post-data .dash{display:block;width:12px;height:1px;background:#000;margin:10px 0}
+  /* Post (colonne méta + contenu) */
+  .post{padding:0 0 45px;clear:both}
+  .post-meta{
+    width:145px;float:left;padding-top:12px;border-top:1px solid #e9e9e9
+  }
+  .post-meta h1{font-size:1.6rem;font-weight:700;margin:0 0 15px;word-wrap:break-word}
+  .post-meta h1 a{border:0}
+  .post-data{color:#9d9d9d;font-size:1.1rem}
+  .post-data .dash{display:block;width:12px;height:1px;background:#000;margin:10px 0}
 
-    .post-content{
-      width:545px;float:right;padding-top:15px;border-top:1px solid #e9e9e9
-    }
-    .post-content p, .post-content li{font-size:1.2rem;line-height:1.5;margin:0 0 15px 0}
+  .post-content{
+    width:545px;float:right;padding-top:15px;border-top:1px solid #e9e9e9
+  }
 
-    /* Médias */
-    .post-content iframe,
-    .post-content img,
-    .post-content video{max-width:545px;width:100%;height:auto;display:block}
+  /* Typo zone contenu (identique LiveHouse) */
+  .post-title{font-weight:700;font-size:2.4rem;margin:0 0 1.5rem}
+  .post-content p,
+  .post-content li,
+  .post-content dd,
+  .post-content dt,
+  .post-content pre,
+  .post-content address,
+  .post-content div{
+    font-size:1.2rem;     /* 12px */
+    line-height:1.5;
+    color:#000;
+    margin:0 0 15px;
+  }
+  .post-content h1{font-size:2.4rem;font-weight:700;margin:0 0 1.5rem}
+  .post-content h2{font-size:1.8rem;font-weight:700;margin:0 0 1.5rem}
+  .post-content h3{font-size:1.6rem;font-weight:700;margin:0 0 1.5rem}
+  .post-content h4{font-size:1.4rem;font-weight:700;margin:0 0 1.5rem}
+  .post-content h5{font-size:1.3rem;font-weight:700;margin:0 0 1.5rem}
 
-    /* Séparateur entre posts */
-    .post + .post{margin-top:18px}
-    .hr{clear:both;height:1px;background:#eee;margin:22px 0}
+  /* Liens dans le contenu (soulignement fin) */
+  .post-content a{color:#000;text-decoration:none;border-bottom:1px solid #e5e5e5}
+  .post-content a:hover{border-color:#000}
 
-    /* Footer court */
-    .footer{clear:both;border-top:1px solid #e9e9e9;padding:20px 0 40px 0;font-size:1.1rem}
-  </style>
+  /* Citations / “source” en gris */
+  blockquote,
+  .post-quote,
+  .source-note{
+    color:#9d9d9d;font-style:normal;font-size:1.2rem;line-height:1.5
+  }
+
+  /* Médias */
+  .post-content iframe,
+  .post-content img,
+  .post-content video{
+    max-width:545px;width:100%;height:auto;display:block
+  }
+
+  /* Séparateur entre posts */
+  .post + .post{margin-top:18px}
+  .hr{clear:both;height:1px;background:#eee;margin:22px 0}
+
+  /* Footer */
+  .footer{clear:both;border-top:1px solid #e9e9e9;padding:20px 0 40px;font-size:1.1rem}
+</style>
+
 </head>
 <body>
   <div class="wrapper">
