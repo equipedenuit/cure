@@ -142,6 +142,52 @@
     padding:20px 0 40px 0;
     font-size:1.1rem;
   }
+
+/* === PATCH TYPO LIVEHOUSE EXACT === */
+/* Base : 10px = 1rem (comme LiveHouse) */
+html{font-size:62.5%}
+body{
+  font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size:1rem;           /* 10px */
+  color:#000;
+}
+
+/* Neutraliser tout h1 global qui resterait */
+h1{font-size:inherit;font-weight:inherit;line-height:inherit;margin:inherit;padding:inherit;border:0}
+
+/* Header */
+#header h1{
+  font-size:4.2rem;         /* 42px */
+  font-weight:700;
+  line-height:1.1;
+  margin:0;
+}
+
+/* Nav */
+#access ul{font-size:1.6rem;font-weight:700}   /* 16px */
+#access a{border:0}
+
+/* Colonne META (gauche) */
+.post-meta{border-top:1px solid #e9e9e9;padding-top:12px;width:145px;float:left}
+.post-meta h1{
+  font-size:1.6rem;         /* 16px */
+  font-weight:700;
+  line-height:1.25;
+  margin:0 0 15px 0;
+  word-wrap:break-word;
+}
+.post-data{font-size:1.1rem;color:#9d9d9d} /* date = 11px */
+
+/* Colonne CONTENU (droite) */
+.post-content{border-top:1px solid #e9e9e9;padding-top:15px;width:545px;float:right}
+.post-content, .post-content p, .post-content li{font-size:1.2rem;line-height:1.5} /* texte = 12px */
+.post-content iframe, .post-content img, .post-content video{max-width:545px;width:100%;height:auto;display:block}
+
+/* Enlever le gros trait sous le titre s’il réapparaît */
+#header{border-bottom:none}
+
+
+  
 </style>
 
 
