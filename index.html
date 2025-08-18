@@ -1,40 +1,16 @@
 ---
 layout: default
-title: "Cure"
+title: Cure
 ---
 
-{% for post in paginator.posts %}
-  <article class="post">
-    <!-- Colonne de gauche (titre + date) -->
+{% for post in site.posts %}
+  <div class="post">
     <div class="post-meta">
-      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-      {% if post.date %}
-        <div class="post-date">{{ post.date | date: "%d/%m/%Y" }}</div>
-      {% endif %}
-      <!-- aucun texte de commentaires ici -->
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.date | date: "%d/%m/%Y" }}</p>
     </div>
-
-    <!-- Colonne de droite (contenu intégral) -->
     <div class="post-content">
       {{ post.content }}
     </div>
-  </article>
-
-  {% unless forloop.last %}
-    <div class="post-sep"></div>
-  {% endunless %}
+  </div>
 {% endfor %}
-
-<nav class="pager">
-  {% if paginator.previous_page %}
-    {% if paginator.previous_page == 1 %}
-      <a class="prev" href="{{ '/' | relative_url }}">« Back in time</a>
-    {% else %}
-      <a class="prev" href="{{ '/page' | append: paginator.previous_page | append: '/' | relative_url }}">« Back in time</a>
-    {% endif %}
-  {% endif %}
-
-  {% if paginator.next_page %}
-    <a class="next" href="{{ '/page' | append: paginator.next_page | append: '/' | relative_url }}">Forward in time »</a>
-  {% endif %}
-</nav>
