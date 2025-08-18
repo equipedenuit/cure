@@ -1,19 +1,12 @@
 ---
 layout: default
 ---
-<article class="post clear">
-  <div class="post-meta">
-    <h1>{{ page.title }}</h1>
-    {% if page.date %}<div class="post-data">{{ page.date | date: "%d/%m/%Y" }}</div>{% endif %}
-  </div>
 
-  <div class="post-content">
-    {%- unless content contains '<iframe' -%}
-      {%- if page.youtube_id -%}
-        {% include yt.html id=page.youtube_id %}
-      {%- endif -%}
-    {%- endunless -%}
+<article>
+  <h2>{{ page.title }}</h2>
+  {% if page.date %}
+    <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
+  {% endif %}
 
-    {{ content }}
-  </div>
+  {{ content }}
 </article>
