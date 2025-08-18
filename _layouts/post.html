@@ -1,31 +1,24 @@
 ---
 layout: default
 ---
-
-<article class="post single">
-  <!-- Colonne de gauche (métadonnées) -->
+<article class="post">
   <div class="post-meta">
-    <h1>{{ page.title }}</h1>
+    <h1><a href="{{ page.url | relative_url }}">{{ page.title }}</a></h1>
     <div class="post-data">
-      <div class="date">{{ page.date | date: "%d/%m/%Y" }}</div>
+      {{ page.date | date: "%d/%m/%Y" }}
     </div>
+    <!-- AUCUN lien commentaires -->
   </div>
 
-  <!-- Colonne de droite (contenu) -->
   <div class="post-content">
+    {%- comment -%}
+      Pas d’email_preview ici (ça évite que l’image fallback soit rendue).
+      On ne garde que l’embed si un youtube_id existe.
+    {%- endcomment -%}
+    {% if page.youtube_id %}
+      {% include yt.html id=page.youtube_id %}
+    {% endif %}
+
     {{ content }}
   </div>
 </article>
-
-<nav id="nav-below" class="clear">
-  {% if page.previous %}
-    <span class="nav-previous">
-      <a href="{{ page.previous.url | relative_url }}">« {{ page.previous.title }}</a>
-    </span>
-  {% endif %}
-  {% if page.next %}
-    <span class="nav-next">
-      <a href="{{ page.next.url | relative_url }}">{{ page.next.title }} »</a>
-    </span>
-  {% endif %}
-</nav>
