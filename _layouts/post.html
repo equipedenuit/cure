@@ -2,22 +2,32 @@
 layout: default
 ---
 
-<section class="post-row">
-  <div class="meta">
-    <div>{{ page.date | date: "%d/%m/%Y" }}</div>
-    <span class="sep"></span>
-    <div><a href="#comments">Poster un commentaire</a></div>
+<article class="post single">
+  <!-- Colonne de gauche (métadonnées) -->
+  <div class="post-meta">
+    <h1>{{ page.title }}</h1>
+    <div class="post-data">
+      <div class="date">{{ page.date | date: "%d/%m/%Y" }}</div>
+      <span class="dash"></span>
+      <a class="comment-link" href="#comments">Poster un commentaire</a>
+    </div>
   </div>
 
-  <article class="post">
-    <h2>{{ page.title }}</h2>
-
-    {%- if page.youtube_id -%}
-      {%- unless page.content contains '<iframe' -%}
-        {%- include yt.html id=page.youtube_id -%}
-      {%- endunless -%}
-    {%- endif -%}
-
+  <!-- Colonne de droite (contenu) -->
+  <div class="post-content">
     {{ content }}
-  </article>
-</section>
+  </div>
+</article>
+
+<nav id="nav-below" class="clear">
+  {% if page.previous %}
+    <span class="nav-previous">
+      <a href="{{ page.previous.url | relative_url }}">« {{ page.previous.title }}</a>
+    </span>
+  {% endif %}
+  {% if page.next %}
+    <span class="nav-next">
+      <a href="{{ page.next.url | relative_url }}">{{ page.next.title }} »</a>
+    </span>
+  {% endif %}
+</nav>
