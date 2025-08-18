@@ -5,18 +5,88 @@
   <title>{{ page.title | default: site.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-/* ---- Ajuste les tailles de police (LiveHouse-like un peu plus compact) ---- */
-#header h1{font-size:3.6rem}                 /* 36px au lieu de 42px */
-#access ul{font-size:1.4rem}                  /* 14px au lieu de 16px */
+<style>
+  /* Reset court */
+  *{box-sizing:border-box}
+  html,body,h1,h2,h3,p,ul,li{margin:0;padding:0}
+  ul{list-style:none}
 
-.post-meta h1{font-size:1.4rem}               /* 14px au lieu de 16px */
-.post-data{font-size:1.0rem}                  /* 10px au lieu de 11px */
+  /* Base */
+  body{
+    background:#fff;
+    color:#000;
+    font:62.5% "Helvetica Neue", Helvetica, Arial, sans-serif; /* 10px = 1rem */
+    line-height:1.5;
+    text-align:left;
+  }
+  a{color:#000;text-decoration:none;border-bottom:1px solid #e5e5e5}
+  a:hover{border-color:#000}
 
-.post-content h2{font-size:2.0rem}            /* 20px au lieu de 24px */
-.post-content p,
-.post-content li{font-size:1.1rem}            /* 11px au lieu de 12px */
+  /* Wrapper global (945px) */
+  .wrapper{width:945px;margin:0 auto;min-height:100%}
 
-.footer{font-size:1.0rem}                     /* 10px au lieu de 11px */
+  /* Header (alignement & tailles plus petites) */
+  #header{
+    padding:42px 0 18px 160px;      /* ↓ légèrement le bloc, ↓ l'espace sous le titre */
+    border-bottom:0 !important;     /* jamais de ligne sous le header */
+    position:relative;
+  }
+  .emdash{
+    position:absolute;left:108px;top:48px;
+    font-size:3.6rem;font-weight:700; /* ~36px */
+  }
+  #header h1{
+    font-size:3.6rem;               /* ~36px, plus petit qu’avant */
+    font-weight:700;letter-spacing:0;
+  }
+  #header h1 a{border:0}
+  #access{margin:10px 0 0 0}
+  #access ul{display:flex;gap:20px;font-size:1.4rem;font-weight:700} /* nav plus petite */
+  #access a{border:0}
+  #access a:hover{color:#9d9d9d}
+
+  /* Grille de contenu */
+  .middle{padding:22px 0 140px 0}   /* moins d’espace avant le premier post */
+  #content{width:705px;float:left}
+  .sidebar{width:225px;float:right}
+
+  /* Posts */
+  .post{padding:0 0 60px 0;clear:both}  /* plus d’air après chaque post */
+  .post-meta{
+    width:145px;float:left;padding-top:10px;border-top:1px solid #e9e9e9
+  }
+  .post-meta h1{
+    font-size:1.4rem;               /* titre colonne gauche plus petit */
+    font-weight:700;margin:0 0 12px 0;word-wrap:break-word
+  }
+  .post-meta h1 a{border:0}
+  .post-data{color:#9d9d9d;font-size:1.0rem}
+  .post-data .dash{display:block;width:12px;height:1px;background:#000;margin:8px 0}
+
+  .post-content{
+    width:545px;float:right;padding-top:12px;border-top:1px solid #e9e9e9
+  }
+  .post-content p, .post-content li{
+    font-size:1.1rem;               /* corps du texte plus petit */
+    line-height:1.5;margin:0 0 15px 0
+  }
+
+  /* Médias */
+  .post-content iframe,
+  .post-content img,
+  .post-content video{
+    max-width:545px;width:100%;height:auto;display:block
+  }
+
+  /* Toujours masquer ce qu’on ne veut pas */
+  .email-preview{display:none !important;}           /* fallback image email */
+  .comments-link, .post-edit{display:none !important;} /* “Poster un commentaire”, etc. */
+  #header::after{display:none !important;}           /* toute éventuelle ligne auto */
+
+  /* Footer */
+  .footer{clear:both;border-top:1px solid #e9e9e9;padding:20px 0 40px 0;font-size:1.1rem}
+</style>
+
 
 </head>
 <body>
