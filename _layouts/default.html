@@ -4,8 +4,13 @@
   <meta charset="utf-8">
   <title>{{ page.title | default: site.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="{{ "/favicon.ico" | relative_url }}" type="image/x-icon">
-  <link rel="shortcut icon" href="{{ "/favicon.ico" | relative_url }}" type="image/x-icon">
+  <!-- FAVICONS -->
+<link rel="icon" href="{{ '/favicon.ico?v=4' | relative_url }}" sizes="any"> <!-- .ico multi-tailles -->
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/favicon-32.png?v=4' | relative_url }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ '/favicon-16.png?v=4' | relative_url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png?v=4' | relative_url }}">
+<meta name="theme-color" content="#ffffff">
+
   <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
 
  
