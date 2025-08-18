@@ -1,118 +1,117 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <title>{{ page.title | default: site.title }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
   <style>
-    /* ===== Reset court ===== */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body,h1,h2,h3,p,ul,li{margin:0;padding:0}
-    ul{list-style:none}
-
-    /* ===== Base typographie =====
-       LiveHouse utilise une base 10px (62.5%). */
-    html{font-size:62.5%}
-    body{
-      background:#fff;
-      color:#000;
-      font:1.0rem "Helvetica Neue", Helvetica, Arial, sans-serif;
-      line-height:1.5;
-      text-align:left;
-    }
-    a{color:#000;text-decoration:none;border-bottom:1px solid #e5e5e5}
-    a:hover{border-color:#000}
-
-    /* ===== Conteneur global ===== */
-    .wrapper{width:945px;margin:0 auto;min-height:100%}
-
-    /* ===== En-tête ===== */
-    #header{padding:50px 0 28px 160px;position:relative}
-    /* marque = tiret cadratin + titre */
-    #brand{display:flex;align-items:center;gap:8px}  /* (était 14px) */
-    .emdash{font-size:4.2rem;font-weight:700;line-height:1}
-    #brand h1{font-size:4.2rem;font-weight:700;line-height:1}
-    #brand a{border:0}
-
-    /* Nav sous-titre */
-    #access{margin-top:10px} /* (était 18px) */
-    #access ul{display:flex;gap:22px;font-size:1.6rem;font-weight:700}
-    #access a{border:0}
-    #access a:hover{color:#9d9d9d}
-
-    /* ===== Grille contenu ===== */
-    .middle{padding:30px 0 140px 0}
-    #content{width:705px;float:left}
-    .sidebar{width:225px;float:right} /* non utilisée, gardée pour l’équilibre */
-
-    /* ===== Posts ===== */
-    .post{padding:0 0 45px 0;clear:both}
-    .post-meta{
-      width:145px;float:left;padding-top:12px;border-top:1px solid #e9e9e9
-    }
-    .post-meta h2{
-      font-size:1.6rem;font-weight:700;margin:0 0 15px 0;word-wrap:break-word
-    }
-    .post-meta h2 a{border:0}
-    .post-date{color:#9d9d9d;font-size:1.1rem}
-
-    .post-content{
-      width:545px;float:right;padding-top:15px;
-      border-top:none; /* important: pas de trait plein sous le premier post */
-    }
-    .post-content p, .post-content li{
-      font-size:1.2rem;line-height:1.5;margin:0 0 15px 0
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      color: #000;
+      margin: 49px 0 0 0;
+      padding: 0;
+      width: 957px;
     }
 
-    /* Médias (iframe YouTube, images, etc.) */
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 42px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px; /* réduit l’espace entre le tiret et Cure */
+      margin: 0;
+    }
+
+    header nav {
+      margin-top: 10px; /* réduit l’espace vertical */
+    }
+
+    header nav a {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 8px;
+      text-decoration: none;
+      color: black;
+    }
+
+    /* Post list wrapper */
+    .wrapper {
+      width: 945px;
+      margin: 0 auto;
+    }
+
+    .post {
+      display: flex;
+      border-top: 1px solid #e9e9e9; /* petit trait séparateur entre les posts */
+      padding: 20px 0;
+    }
+
+    /* Post meta col */
+    .post-meta {
+      width: 145px;
+      font-size: 10px;
+      font-weight: 400;
+      color: #000;
+      padding-top: 12px;
+    }
+
+    .post-meta h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+    }
+
+    .post-meta p {
+      margin: 0;
+      color: #888;
+    }
+
+    /* Post content col */
+    .post-content {
+      width: 545px;
+      padding-top: 15px;
+      border-top: none; /* supprime le gros trait */
+    }
+
+    /* Vidéos, images, médias */
     .post-content iframe,
     .post-content img,
-    .post-content video{
-      width:100%;
-      max-width:545px;
-      aspect-ratio:16/9; /* évite le crop et garde le ratio */
-      height:auto;
-      display:block;
+    .post-content video {
+      width: 100%;
+      max-width: 545px;
+      aspect-ratio: 16/9;
+      height: auto;
+      display: block;
+      border-bottom: 1px solid #e9e9e9; /* petit trait */
+      margin-bottom: 12px;              /* espace avant le texte */
+      padding-bottom: 6px;
     }
 
-    /* Fallback image (newsletter) : masquée à l’écran, gardée dans le HTML */
-    .email-preview{display:none}
-
-    /* Séparateur volontaire entre posts (fin trait fin) */
-    .post-sep{clear:both;height:1px;background:#e9e9e9;margin:22px 0}
-
-    /* Pied de page minimal */
-    .footer{clear:both;border-top:1px solid #e9e9e9;padding:20px 0 40px 0;font-size:1.1rem}
+    .post-content p {
+      margin: 0;
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <h1><span style="font-weight:900;">—</span> Cure</h1>
+    <nav>
+      <a href="/">Accueil</a>
+      <a href="/about">About</a>
+      <a href="/critiques">Liste des critiques</a>
+    </nav>
+  </header>
+
   <div class="wrapper">
-    <header id="header">
-      <div id="brand">
-        <div class="emdash">—</div>
-        <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-      </div>
-
-      <nav id="access" aria-label="Navigation principale">
-        <ul>
-          <li><a href="{{ '/' | relative_url }}">Accueil</a></li>
-          <li><a href="{{ '/about/' | relative_url }}">About</a></li>
-          <li><a href="{{ '/liste-des-critiques/' | relative_url }}">Liste des critiques</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main class="middle">
-      <div id="content">
-        {{ content }}
-      </div>
-      <aside class="sidebar"></aside>
-    </main>
-
-    <footer class="footer">
-      <p>Cure © {{ "now" | date: "%Y" }}</p>
-    </footer>
+    {{ content }}
   </div>
 </body>
 </html>
