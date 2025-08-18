@@ -1,16 +1,18 @@
 ---
 layout: default
-title: Cure
+title: "Cure"
 ---
 
 {% for post in site.posts %}
-  <div class="post">
+  <article class="post">
     <div class="post-meta">
-      <h2>{{ post.title }}</h2>
-      <p>{{ post.date | date: "%d/%m/%Y" }}</p>
+      <h2><a href="{{ post.url | relative_url }}" style="color:#000;text-decoration:none;border:0">{{ post.title }}</a></h2>
+      <div class="date">{{ post.date | date: "%d/%m/%Y" }}</div>
+      {# on n’affiche jamais “Poster un commentaire” #}
     </div>
+
     <div class="post-content">
       {{ post.content }}
     </div>
-  </div>
+  </article>
 {% endfor %}
