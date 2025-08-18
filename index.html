@@ -3,16 +3,25 @@ layout: default
 title: "Cure"
 ---
 
-{% for post in site.posts %}
-  <article class="post">
-    <div class="post-meta">
-      <h2><a href="{{ post.url | relative_url }}" style="color:#000;text-decoration:none;border:0">{{ post.title }}</a></h2>
-      <div class="date">{{ post.date | date: "%d/%m/%Y" }}</div>
-      {# on n’affiche jamais “Poster un commentaire” #}
-    </div>
-
-    <div class="post-content">
-      {{ post.content }}
-    </div>
+{% for post in paginator.posts %}
+  <article>
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <div class="meta">{{ post.date | date: "%-d %B %Y" }}</div>
+    {{ post.content }}
   </article>
+  {% unless forloop.last %}<hr>{% endunless %}
 {% endfor %}
+
+<nav class="pager">
+  {% if paginator.previous_page %}
+    {% if paginator.previous_page == 1 %}
+      <a class="prev" href="{{ '/' | relative_url }}">« Back in time</a>
+    {% else %}
+      <a class="prev" href="{{ '/page' | append: paginator.previous_page | append: '/' | relative_url }}">« Back in time</a>
+    {% endif %}
+  {% endif %}
+
+  {% if paginator.next_page %}
+    <a class="next" href="{{ '/page' | append: paginator.next_page | append: '/' | relative_url }}">Forward in time »</a>
+  {% endif %}
+</nav>
