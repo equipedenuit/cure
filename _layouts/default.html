@@ -5,97 +5,82 @@
   <title>{{ page.title | default: site.title }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- STYLE “LiveHouse-like” ultra ciblé -->
-
   <style>
-  /* Reset court */
-  *{box-sizing:border-box} html,body,h1,h2,h3,p,ul,li{margin:0;padding:0}
-  ul{list-style:none}
+    /* Reset court + boîte cohérente */
+    *{box-sizing:border-box}
+    html,body,h1,h2,h3,p,ul,li{margin:0;padding:0}
+    ul{list-style:none}
 
-  /* Base */
-  body{
-    background:#fff;
-    color:#000;
-    font:62.5% "Helvetica Neue", Helvetica, Arial, sans-serif; /* 10px = 1rem */
-    line-height:1.5;
-    text-align:left;
-  }
-  a{color:#000;text-decoration:none;border-bottom:1px solid #e5e5e5}
-  a:hover{border-color:#000}
+    /* Base – mêmes valeurs que LiveHouse */
+    body{
+      background:#fff;
+      color:#000;
+      font:62.5% "Helvetica Neue", Helvetica, Arial, sans-serif; /* 10px = 1rem */
+      line-height:1.5;
+      text-align:left;
+    }
+    a{color:#000;text-decoration:none;border-bottom:1px solid #e5e5e5}
+    a:hover{border-color:#000}
 
-  /* Wrapper global (945px) */
-  .wrapper{width:945px;margin:0 auto;min-height:100%}
+    /* Conteneur du site */
+    .wrapper{width:945px;margin:0 auto;min-height:100%}
 
-  /* Header — place le titre EXACTEMENT plus bas */
-  #header{
-    /* ↑ on abaisse très légèrement le bloc titre vs ta version précédente */
-    padding:58px 0 26px 160px;   /* top | right | bottom | left */
-    border-bottom:1px solid #eee;
-    position:relative;
-  }
-  .emdash{
-    /* tiret aligné sur LiveHouse */
-    position:absolute;left:108px;top:64px;
-    font-size:42px;font-weight:700;
-  }
-  #header h1{font-size:4.2rem;font-weight:700;letter-spacing:0}
-  #header h1 a{border:0}
+    /* Header */
+    #header{
+      /* IMPORTANT: pas de trait sous le titre */
+      border:none;
+      padding:50px 0 22px 160px;         /* aligne verticalement comme LiveHouse */
+      position:relative;
+    }
+    .emdash{position:absolute;left:108px;top:56px;font-size:42px;font-weight:700}
+    #header h1{font-size:4.2rem;font-weight:700}
+    #header h1 a{border:0}
+    #access{margin:10px 0 0 0}           /* réduit l’espace sous le titre */
+    #access ul{display:flex;gap:22px;font-size:1.6rem;font-weight:700}
+    #access a{border:0}
+    #access a:hover{color:#9d9d9d}
 
-  /* Menu sous le titre (même corps que LiveHouse) */
-  #access{margin:12px 0 0 0}
-  #access ul{display:flex;gap:22px;font-size:1.6rem;font-weight:700}
-  #access a{border:0}
-  #access a:hover{color:#9d9d9d}
+    /* Grille */
+    .middle{padding:10px 0 140px 0}      /* rapprocher le 1er post du header */
+    #content{width:705px;float:left}
+    .sidebar{width:225px;float:right}    /* non utilisée, mais gardée pour la mise en page */
 
-  /* Grille de contenu */
-  .middle{
-    /* on rapproche le premier post du header */
-    padding:15px 0 140px 0;  /* top réduit */
-  }
-  #content{width:705px;float:left}
-  .sidebar{width:225px;float:right} /* laissée vide */
+    /* Post list */
+    .post{padding:0 0 45px 0;clear:both}
+    .post + .post{margin-top:32px}       /* plus d’air entre les posts */
 
-  /* Post */
-  .post{
-    /* on augmente l’espace entre deux posts */
-    padding:0 0 62px 0;  /* bas + */
-    clear:both;
-  }
-  .post + .post{margin-top:28px}  /* inter-post */
+    .post-meta{
+      width:145px;float:left;padding-top:12px;border-top:1px solid #e9e9e9
+    }
+    .post-meta h1{font-size:1.6rem;font-weight:700;margin:0 0 15px 0;word-wrap:break-word}
+    .post-meta h1 a{border:0}
+    .post-data{color:#9d9d9d;font-size:1.1rem}
+    /* on masque totalement la zone commentaires s’il y en a */
+    .post-comments, .comments-link{display:none !important}
 
-  .post-meta{
-    width:145px;float:left;padding-top:12px;border-top:1px solid #e9e9e9
-  }
-  .post-meta h1{font-size:1.6rem;font-weight:700;margin:0 0 15px 0;word-wrap:break-word}
-  .post-meta h1 a{border:0}
-  .post-data{color:#9d9d9d;font-size:1.1rem}
-  .post-data .dash{display:block;width:12px;height:1px;background:#000;margin:10px 0}
-  /* ne rien afficher sur les commentaires (même si un CMS en génère) */
-  .post-data .comments-link{display:none}
+    .post-content{
+      width:545px;float:right;padding-top:15px;border-top:1px solid #e9e9e9
+    }
+    .post-content h2{font-size:2.4rem;font-weight:700;margin:0 0 15px 0}
+    .post-content p, .post-content li{font-size:1.2rem;line-height:1.5;margin:0 0 15px 0}
 
-  .post-content{
-    width:545px;float:right;padding-top:15px;border-top:1px solid #e9e9e9;
-    /* un peu d’air sous le contenu du post lui-même */
-    padding-bottom:18px;
-  }
-  .post-content p, .post-content li{font-size:1.2rem;line-height:1.5;margin:0 0 15px 0}
+    /* Médias – aucune hauteur fixe => pas de crop */
+    .post-content iframe,
+    .post-content img,
+    .post-content video{
+      width:100%;
+      max-width:545px;
+      height:auto;
+      display:block;
+      aspect-ratio:16 / 9;               /* YouTube propre */
+    }
 
-  /* Médias — “taille normale”, jamais rognée */
-  .post-content iframe,
-  .post-content img,
-  .post-content video{
-    width:100%;
-    max-width:545px;
-    height:auto;
-    display:block;
-    aspect-ratio:16/9;  /* évite l’effet “cropped” de certains iframes */
-  }
+    /* Empêche le fallback email (miniature) d’apparaître sur le site */
+    .email-preview{display:none !important}
 
-  /* Footer court */
-  .footer{clear:both;border-top:1px solid #e9e9e9;padding:20px 0 40px 0;font-size:1.1rem}
-</style>
-
-
+    /* Footer */
+    .footer{clear:both;border-top:1px solid #e9e9e9;padding:20px 0 40px 0;font-size:1.1rem}
+  </style>
 </head>
 <body>
   <div class="wrapper">
@@ -116,8 +101,6 @@
       <div id="content">
         {{ content }}
       </div>
-
-      <!-- (Optionnel) colonne droite / widgets désactivés -->
       <aside class="sidebar"></aside>
     </main>
 
