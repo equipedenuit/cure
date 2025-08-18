@@ -4,30 +4,33 @@ title: "Cure"
 ---
 
 {% for post in paginator.posts %}
-<article class="post">
-  <div class="post-meta">
-    <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
-    <div class="post-data">{{ post.date | date: "%d/%m/%Y" }}</div>
-  </div>
+  <article class="post clear">
+    <div class="post-meta">
+      <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
+      <div class="post-data">{{ post.date | date: "%d/%m/%Y" }}</div>
+    </div>
 
-  <div class="post-content">
-    {% if post.youtube_id %}
-      {% include yt.html id=post.youtube_id %}
-    {% endif %}
-    {{ post.content }}
-  </div>
-</article>
+    <div class="post-content">
+      {%- assign has_iframe = post.content | contains: '<iframe' -%}
+      {%- if post.youtube_id and has_iframe == false -%}
+        {% include yt.html id=post.youtube_id %}
+      {%- endif -%}
+
+      {{ post.content }}
+    </div>
+  </article>
+  {% unless forloop.last %}<div class="post-sep"></div>{% endunless %}
 {% endfor %}
 
-<nav id="nav-below" class="clear">
+<nav class="pager">
   {% if paginator.previous_page %}
-    <span class="nav-previous">
-      <a href="{{ paginator.previous_page_path | relative_url }}">« Back in time</a>
-    </span>
+    {% if paginator.previous_page == 1 %}
+      <a class="prev" href="{{ '/' | relative_url }}">« Back in time</a>
+    {% else %}
+      <a class="prev" href="{{ '/page' | append: paginator.previous_page | append: '/' | relative_url }}">« Back in time</a>
+    {% endif %}
   {% endif %}
   {% if paginator.next_page %}
-    <span class="nav-next">
-      <a href="{{ paginator.next_page_path | relative_url }}">Forward in time »</a>
-    </span>
+    <a class="next" href="{{ '/page' | append: paginator.next_page | append: '/' | relative_url }}">Forward in time »</a>
   {% endif %}
 </nav>
