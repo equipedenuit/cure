@@ -112,6 +112,28 @@
 /* Enlever le grand trait sous le titre du blog */
 #header{ padding:50px 0 28px 160px; border-bottom:0; }
 
+/* --- no comments anywhere --- */
+.comments-link,
+.post-edit,
+.comment-qty,
+.nocomments,
+#respond,
+.post-data a[href*="#comments"],
+.post-data a[href*="#respond"]{
+  display:none !important;
+}
+
+/* Médias : responsive 16:9, pleine largeur de la colonne */
+.post-content .yt-embed{ max-width:545px; width:100%; }
+.post-content .yt-embed iframe,
+.post-content iframe{
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:16/9;           /* ratio stable */
+  display:block;
+  border:0;
+}
+
     
 </style>
 
