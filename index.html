@@ -4,29 +4,30 @@ title: "Cure"
 ---
 
 {% for post in paginator.posts %}
-  <article class="post">
-    <div class="post-meta">
-      <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
-      <div class="post-data">
-        <div class="date">{{ post.date | date: "%d/%m/%Y" }}</div>
-      </div>
-    </div>
+<article class="post">
+  <div class="post-meta">
+    <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
+    <div class="post-data">{{ post.date | date: "%d/%m/%Y" }}</div>
+  </div>
 
-    <div class="post-content">
-      {{ post.content }}
-    </div>
-  </article>
+  <div class="post-content">
+    {% if post.youtube_id %}
+      {% include yt.html id=post.youtube_id %}
+    {% endif %}
+    {{ post.content }}
+  </div>
+</article>
 {% endfor %}
 
 <nav id="nav-below" class="clear">
   {% if paginator.previous_page %}
     <span class="nav-previous">
-      <a href="{{ paginator.previous_page_path | relative_url }}">« Articles plus récents</a>
+      <a href="{{ paginator.previous_page_path | relative_url }}">« Back in time</a>
     </span>
   {% endif %}
   {% if paginator.next_page %}
     <span class="nav-next">
-      <a href="{{ paginator.next_page_path | relative_url }}">Articles plus anciens »</a>
+      <a href="{{ paginator.next_page_path | relative_url }}">Forward in time »</a>
     </span>
   {% endif %}
 </nav>
