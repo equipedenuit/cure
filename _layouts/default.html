@@ -6,103 +6,201 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-    /* ===== Reset court ===== */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body,h1,h2,h3,p,ul,li{margin:0;padding:0}
-    ul{list-style:none}
+    /* Rendu proche Tumblr */
+   body {
+  font-family: "Times New Roman", serif;
+  font-size: 0.88em;   /* comme sur Tumblr */
+  max-width: 540px;    /* largeur colonne Tumblr */
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  line-height: 1.5;
+  color: #111;
+  background: #fff;
+}
 
-    /* ===== Base typographie (comme LiveHouse) ===== */
-    html{font-size:62.5%} /* 1rem = 10px */
-    body{
-      background:#fff;color:#000;
-      font:400 1rem "Helvetica Neue",Helvetica,Arial,sans-serif;
-      line-height:1.5;
+    h1{
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 .25rem 0;
+      letter-spacing: .2px;
     }
 
-    /* ===== Grille globale ===== */
-    .wrapper{width:945px;margin:0 auto}
-    .middle{padding:0 0 120px 0}
-
-    /* ===== Header ===== */
-    #header{padding:46px 0 18px 160px;position:relative}
-    .emdash{
-      position:absolute;left:108px;top:54px; /* aligne le tiret au milieu du C */
-      font-weight:900;font-size:4.2rem;line-height:1
-    }
-    #header h1{font-size:4.2rem;font-weight:700}
-    #header h1 a{color:#000;text-decoration:none;border:0}
-
-    /* Nav, proche du titre (petit espacement) */
-    #access{margin:10px 0 0 0}
-    #access ul{display:flex;gap:22px}
-    #access a{
-      font-size:1.4rem;font-weight:700;border:0;
-      text-decoration:none;color:#000
-    }
-    #access a:hover{color:#9d9d9d}
-
-    /* ===== Liste des posts ===== */
-    .post{
-      display:flex;gap:0; /* layout 2 colonnes */
-      padding:20px 0;
-      border-top:1px solid #e9e9e9;   /* petit trait séparateur entre posts */
-    }
-    .post:first-of-type{border-top:none} /* pas de trait avant le premier */
-
-    /* Colonne gauche (meta) */
-    .post-meta{
-      width:145px;padding-top:12px;flex:0 0 145px
-    }
-    .post-meta h2{
-      font-size:1.6rem;font-weight:700;margin:0 0 8px 0;word-wrap:break-word
-    }
-    .post-meta .date{font-size:1.1rem;color:#9d9d9d}
-
-    /* Colonne droite (contenu) */
-    .post-content{
-      width:545px;padding-top:15px;flex:0 0 545px;
-      border-top:none; /* supprime tout gros trait interne */
+    .subtitle{
+      text-align: center;
+      font-style: italic;
+      opacity: .8;
+      margin: 0 0 1rem 0;
     }
 
-    /* Texte du post */
-    .post-content p{font-size:1.2rem;margin:0 0 15px 0}
+   a {
+  color: #0000EE;       /* bleu HTML classique */
+  text-decoration: underline;
+}
+a:visited {
+  color: #551A8B;       /* violet standard pour les liens visités */
+}
+  .pager{display:flex;justify-content:space-between;gap:1rem;margin:2rem 0}
+  .pager .prev,.pager .next{color:#0000EE;text-decoration:underline}
 
-    /* Embeds : un petit trait sous le média + bon ratio */
-    .post-content iframe,
-    .post-content img,
-    .post-content video{
-      width:100%;max-width:545px;display:block;
-      aspect-ratio:16/9;height:auto;
-      border-bottom:1px solid #e9e9e9;  /* le petit trait demandé */
-      padding-bottom:6px;margin-bottom:12px;
+/* Citations (blockquote) */
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid #000;  /* trait noir, sobre */
+  font-style: italic;
+  color: #555;                  /* gris doux, pas flashy */
+  line-height: 1.5;
+}
+blockquote footer {
+  margin-top: 0.5rem;
+  font-style: normal;
+  font-size: 0.9em;
+  color: #333;
+}
+
+blockquote footer a {
+  color: #333;
+  text-decoration: underline;
+}
+
+    article{ margin: 0 0 3rem 0; }
+    article h2{ font-size: 1.25rem; margin: .25rem 0; }
+    .meta{ font-size: .9rem; color: #444; margin-bottom: .75rem; }
+
+    hr{ border: 0; border-top: 1px solid #ddd; margin: 2rem 0; }
+
+  @media screen {
+    .email-preview { display: none; }
+  }
+
+    /* Embeds responsives (YouTube, Mixcloud…) */
+    iframe{
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;  /* écrase la hauteur fixe */
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
 
-    /* Masquer l'image fallback (newsletter) sur le web uniquement */
-    @media screen {
-      .email-preview{display:none !important}
-    }
+    img, video{ max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+/* ===== Formulaire d’abonnement ===== */
+#subscribe {
+  width: 100%;              /* suit la largeur du body */
+  margin: 1.5rem 0 2rem;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#subscribe form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  flex-wrap: nowrap;        /* desktop : tout sur une seule ligne */
+}
+
+#subscribe .sub-label {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin: 0;
+  font: inherit;
+}
+
+/* Reset générique */
+#subscribe input[type="email"],
+#subscribe button {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font: inherit;
+  line-height: 1.2;
+  min-height: 44px;         /* tap targets accessibles */
+}
+
+/* Input */
+#subscribe input[type="email"] {
+  flex: 1 1 auto;           /* prend l’espace restant */
+  min-width: 0;             /* empêche le dépassement */
+  padding: .5rem .75rem;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  font-size: 16px;          /* anti zoom iOS */
+}
+
+/* Bouton */
+#subscribe button {
+  flex: 0 0 auto;
+  padding: .5rem 1rem;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#subscribe button:hover {
+  background: #000;
+  color: #fff;
+}
+#subscribe button:disabled {
+  background: #f5f5f5;
+  color: #000;
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* ===== Responsive ===== */
+/* Tablet : label au-dessus si ça manque de place */
+@media (max-width: 900px) {
+  #subscribe form {
+    flex-wrap: wrap;
+  }
+  #subscribe .sub-label {
+    flex: 1 1 100%;
+    text-align: center;
+    white-space: normal;
+    margin-bottom: .5rem;
+  }
+}
+
+/* Mobile : input et bouton en pleine largeur */
+@media (max-width: 520px) {
+  #subscribe input[type="email"],
+  #subscribe button {
+    width: 100%;
+  }
+}
+
+    
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <header id="header">
-      <div class="emdash">—</div>
-      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+<h1>{{ site.title }}</h1>
+{% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
 
-      <nav id="access" aria-label="Navigation principale">
-        <ul>
-          <li><a href="{{ '/' | relative_url }}">Accueil</a></li>
-          <li><a href="{{ '/about/' | relative_url }}">About</a></li>
-          <li><a href="{{ '/liste-des-critiques/' | relative_url }}">Liste des critiques</a></li>
-        </ul>
-      </nav>
-    </header>
 
-    <main class="middle">
-      <div id="content">
-        {{ content }}
-      </div>
-    </main>
-  </div>
+  <div id="subscribe">
+  <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/confirmation/">
+    <input type="hidden" name="form-name" value="newsletter">
+    <p style="display:none;"><label>Ne pas remplir : <input name="bot-field"></label></p>
+
+    <label for="email" class="sub-label">Recevoir les nouveaux posts par email</label>
+    <input id="email" name="email" type="email" required placeholder="votre@email.com" aria-label="Adresse email">
+    <button type="submit" aria-label="S’abonner">S’abonner</button>
+  </form>
+</div>
+
+
+
+
+
+
+  {{ content }}
+
+
 </body>
 </html>
