@@ -3,16 +3,40 @@ layout: default
 title: "Cure"
 ---
 
-{% for post in site.posts %}
-<article>
-  <div class="meta">
-    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-    <div>{{ post.date | date: "%d/%m/%Y" }}</div>
-    <a href="{{ post.url }}#comments">Poster un commentaire</a>
-  </div>
-  <div class="content">
-    {{ post.content }}
-  </div>
-</article>
+---
+layout: default
+title: "Cure"
+---
+
+{% for post in paginator.posts %}
+  <article class="post clear">
+    <!-- Colonne gauche : Titre + méta -->
+    <div class="post-meta">
+      <h1><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h1>
+      <div class="post-data">
+        {{ post.date | date: "%d/%m/%Y" }}
+        <span class="dash"></span>
+        <a href="{{ post.url | relative_url }}#comments">Poster un commentaire</a>
+      </div>
+    </div>
+
+    <!-- Colonne droite : Contenu seul (embed + texte) -->
+    <div class="post-content">
+      {{ post.content }}
+    </div>
+  </article>
 {% endfor %}
+
+<!-- Pagination façon “précédent / suivant” (style LiveHouse simple) -->
+{% if paginator.total_pages > 1 %}
+  <div class="hr"></div>
+  <nav id="nav-below" style="padding:0 0 15px 160px;font:bold 1.2rem 'Helvetica Neue',Helvetica,Arial,sans-serif;">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | relative_url }}">« Articles précédents</a>
+    {% endif %}
+    {% if paginator.next_page %}
+      <span style="float:right;"><a href="{{ paginator.next_page_path | relative_url }}">Articles suivants »</a></span>
+    {% endif %}
+  </nav>
+{% endif %}
 
