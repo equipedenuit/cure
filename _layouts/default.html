@@ -178,11 +178,16 @@ blockquote footer a {
   }
 }
 
+.emdash {
+    margin: 0 0 0 -52px;
+    padding: 0 7px 0 0;
+}
     
   </style>
 </head>
 <body>
-<h1><a href="{{ '/' | relative_url }}" title="Revenir à l’accueil">{{ site.title }}</a></h1>
+<span class="emdash">—</span>
+  <h1><a href="{{ '/' | relative_url }}" title="Revenir à l’accueil">{{ site.title }}</a></h1>
 {% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
 
 
