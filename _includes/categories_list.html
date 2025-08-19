@@ -1,9 +1,8 @@
 {% if site.categories %}
-  <ul class="cats-list">
-    {% for cat in site.categories %}
-      <li>
-        <a href="/c-{{ cat[0] | slugify }}/">{{ cat[0] }}</a>{% unless forloop.last %},{% endunless %}
-      </li>
+  <div class="cats-wrapper">
+    {% assign sorted_cats = site.categories | sort %}
+    {% for cat in sorted_cats %}
+      <a href="/c-{{ cat[0] | slugify }}/">{{ cat[0] }}</a>{% unless forloop.last %}, {% endunless %}
     {% endfor %}
-  </ul>
+  </div>
 {% endif %}
