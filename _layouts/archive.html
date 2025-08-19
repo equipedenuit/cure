@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<main class="middle clear">
+  <div id="content">
+    <article class="post">
+      <header class="post-header" style="border-top:1px solid #e9e9e9;padding-top:15px;margin-bottom:20px">
+        <h1 class="post-title" style="font-size:24px;font-weight:700">
+          {% if page.type == "category" %}Catégorie : {{ page.title }}{% endif %}
+        </h1>
+      </header>
+
+      <div class="post-content">
+        <ul style="margin:0;padding:0;list-style:none">
+          {% assign postslist = page.posts | default: site.posts %}
+          {% for p in postslist %}
+            <li style="margin:0 0 15px 0;padding:0">
+              <a href="{{ p.url | relative_url }}" style="font-weight:bold;border-bottom:1px solid #e5e5e5">{{ p.title }}</a>
+              <div style="color:#9d9d9d;font-size:11px">{{ p.date | date: "%-d %B %Y" }}</div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </article>
+  </div>
+</main>
