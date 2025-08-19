@@ -2,7 +2,7 @@
   <ul class="cats-list">
     {% for cat in site.categories %}
       <li>
-        <a href="/c/{{ cat[0] | slugify }}/">{{ cat[0] }}</a>{% unless forloop.last %},{% endunless %}
+        <a href="/c-{{ cat[0] | slugify }}/">{{ cat[0] }}</a>{% unless forloop.last %},{% endunless %}
       </li>
     {% endfor %}
   </ul>
