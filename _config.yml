@@ -13,7 +13,7 @@ jekyll-archives:
   layouts:
     category: archive
   permalinks:
-    category: /c/:name/
+    category: /c-:name/
 markdown: kramdown
 paginate: 20                 # 20 articles par page
 paginate_path: "/page:num/"  # /page2, /page3, …
