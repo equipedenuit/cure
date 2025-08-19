@@ -9,16 +9,15 @@ layout: default
     <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
   {% endif %}
 
-  {% if page.categories and page.categories.size > 0 %}
-  <div class="post-categories" style="margin:6px 0 14px 0;font-size:12px">
+{% if page.categories and page.categories != empty %}
+  <div class="meta-cats">
     {% for cat in page.categories %}
-      <a
-        href="{{ '/c/' | append: (cat | slugify) | append: '/' | relative_url }}"
-        
-      >{{ cat }}</a>{% unless forloop.last %}<span class="sep"> · </span>{% endunless %}
+      {% assign slug = cat | slugify: 'pretty' %}
+      <a class="cat" href="{{ '/c-' | append: slug | append: '/' | relative_url }}">{{ cat }}</a>{% unless forloop.last %}<span class="sep"> · </span>{% endunless %}
     {% endfor %}
   </div>
 {% endif %}
+
 
 
  {%- comment -%}
