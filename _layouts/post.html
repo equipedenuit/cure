@@ -12,11 +12,22 @@ layout: default
 {% if page.categories and page.categories != empty %}
   <div class="meta-cats">
     {% for cat in page.categories %}
-      {% assign slug = cat | slugify: 'pretty' %}
+      {%- assign slug = cat
+        | downcase
+        | replace: '&', 'and'
+        | replace: '—', '-'
+        | replace: '–', '-'
+        | replace: ' ', '-'
+        | replace: '_', '-'
+        | replace: '.', ''
+        | replace: ':', ''
+        | replace: ';', ''
+      -%}
       <a class="cat" href="{{ '/c-' | append: slug | append: '/' | relative_url }}">{{ cat }}</a>{% unless forloop.last %}<span class="sep"> · </span>{% endunless %}
     {% endfor %}
   </div>
 {% endif %}
+
 
 
 
