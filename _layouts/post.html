@@ -9,10 +9,6 @@ layout: default
     <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
   {% endif %}
 
-{%- if page.url == '/' or page.permalink == '/' -%}
-  {%- include categories_list.html -%}
-{%- endif -%}
-
  {%- comment -%}
 Auto hero resolver pour les pages de post :
 - page.hero prioritaire
