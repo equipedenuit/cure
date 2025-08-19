@@ -1,18 +1,19 @@
 {%- comment -%}
-Liste toutes les catégories du site, lien vers /c-<categorie>/.
+Liste des catégories (accueil). 
+site.categories est un tableau de [nom, posts[]]
 {%- endcomment -%}
 
-{%- assign cat_names = site.categories | map: 'first' | sort_natural -%}
-
-{%- if cat_names.size > 0 -%}
+{%- assign categories = site.categories | sort_natural -%}
+{%- if categories and categories != empty -%}
 <nav class="cats-nav" aria-label="Catégories">
   <ul class="cats">
-    {%- for name in cat_names -%}
-      {%- comment -%} slug URL-safe pour /c-<slug>/ {%- endcomment -%}
-      {%- assign slug = name | slugify: 'pretty' -%}
+    {%- for pair in categories -%}
+      {%- assign name = pair[0] -%}
+      {%- assign posts = pair[1] -%}
+      {%- assign slug  = name | slugify: 'pretty' -%}
       <li>
-        <a href="{{ ('/c-' | append: slug | append: '/') | relative_url }}">{{ name }}</a>
-        <span class="count">{{ site.categories[name] | size }}</span>
+        <a href="{{ '/c-' | append: slug | append: '/' | relative_url }}">{{ name }}</a>
+        <span class="count">{{ posts | size }}</span>
       </li>
     {%- endfor -%}
   </ul>
