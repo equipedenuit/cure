@@ -14,7 +14,7 @@ layout: default
     {% for cat in page.categories %}
       <a
         href="{{ '/c/' | append: (cat | slugify) | append: '/' | relative_url }}"
-        style="border-bottom:1px solid #e5e5e5"
+        
       >{{ cat }}</a>{% unless forloop.last %}<span class="sep"> · </span>{% endunless %}
     {% endfor %}
   </div>
