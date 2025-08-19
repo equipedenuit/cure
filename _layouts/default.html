@@ -201,6 +201,14 @@ blockquote footer a {
     padding: 0 7px 0 0;
     line-height: 1.5;
 }
+
+.cats-nav { margin: 8px 0 18px; }
+.cats { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px 14px; }
+.cats li { display: inline-flex; align-items: baseline; }
+.cats a { text-decoration: none; border-bottom: 1px solid #e5e5e5; color: #000; }
+.cats a:hover { border-color: #000; }
+.cats .count { font-size: 11px; color: #9d9d9d; margin-left: 4px; }
+
     
   </style>
 </head>
@@ -210,6 +218,11 @@ blockquote footer a {
   Cure</a></h1>
   
 {% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
+
+{%- if page.url == '/' or page.permalink == '/' -%}
+{%- include categories_list.html -%}
+{%- endif -%}
+
 
 
   <div id="subscribe">
