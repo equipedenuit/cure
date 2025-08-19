@@ -9,28 +9,9 @@ layout: default
     <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
   {% endif %}
 
-{% if page.categories and page.categories != empty %}
-  <div class="meta-cats">
-    {% for cat in page.categories %}
-      {%- assign slug = cat
-        | downcase
-        | replace: '&', 'and'
-        | replace: '—', '-'
-        | replace: '–', '-'
-        | replace: ' ', '-'
-        | replace: '_', '-'
-        | replace: '.', ''
-        | replace: ':', ''
-        | replace: ';', ''
-      -%}
-      <a class="cat" href="{{ '/c-' | append: slug | append: '/' | relative_url }}">{{ cat }}</a>{% unless forloop.last %}<span class="sep"> · </span>{% endunless %}
-    {% endfor %}
-  </div>
-{% endif %}
-
-
-
-
+{%- if page.url == '/' or page.permalink == '/' -%}
+  {%- include categories_list.html -%}
+{%- endif -%}
 
  {%- comment -%}
 Auto hero resolver pour les pages de post :
