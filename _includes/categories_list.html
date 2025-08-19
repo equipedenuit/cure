@@ -1,54 +1,4 @@
-{%- comment -%}
-Liste horizontale des catégories. 
-- Aucun slugify (on fabrique un slug simple à la main).
-- Ne rien afficher si pas de catégories.
-- Compatible si site.categories est vide (reconstruit via site.posts).
-{%- endcomment -%}
-
-{%- assign categories_hash = site.categories -%}
-
-{%- if categories_hash == nil or categories_hash == empty -%}
-  {%- comment %}Fallback: reconstruire depuis les posts si site.categories est vide{% endcomment -%}
-  {%- assign _all = "" | split: "" -%}
-  {%- for p in site.posts -%}
-    {%- assign cats = p.categories | default: empty -%}
-    {%- if cats and cats != empty -%}
-      {%- for c in cats -%}{%- assign _all = _all | push: c -%}{%- endfor -%}
-    {%- endif -%}
-  {%- endfor -%}
-  {%- assign _uniq = _all | uniq | sort_natural -%}
-  {%- assign categories_list = _uniq -%}
-{%- else -%}
-  {%- comment %}site.categories est un hash: [name] => [posts...]{% endcomment -%}
-  {%- assign categories_list = "" | split: "" -%}
-  {%- for pair in categories_hash -%}
-    {%- assign _name = pair[0] -%}
-    {%- assign categories_list = categories_list | push: _name -%}
-  {%- endfor -%}
-  {%- assign categories_list = categories_list | uniq | sort_natural -%}
-{%- endif -%}
-
-{%- if categories_list and categories_list != empty -%}
-<nav class="cats-nav" aria-label="Catégories">
-  <ul class="cats">
-    {%- for name in categories_list -%}
-      {%- assign slug = name
-          | downcase
-          | replace: '&', 'and'
-          | replace: '—','-'
-          | replace: '–','-'
-          | replace: ' ','-'
-          | replace: '_','-'
-          | replace: '.',''
-          | replace: ':',''
-          | replace: ';',''
-      -%}
-      <li class="cat-item">
-        <a href="{{ '/c-' | append: slug | append: '/' | relative_url }}">{{ name }}</a>
-      </li>
-    {%- endfor -%}
-  </ul>
-  {% if site.categories %}
+{% if site.categories %}
   <ul class="cats-list">
     {% for cat in site.categories %}
       <li>
@@ -57,6 +7,3 @@ Liste horizontale des catégories.
     {% endfor %}
   </ul>
 {% endif %}
-</nav>
-{%- endif -%}
-
