@@ -48,6 +48,15 @@ Liste horizontale des catégories.
       </li>
     {%- endfor -%}
   </ul>
+  {% if site.categories %}
+  <ul class="cats-list">
+    {% for cat in site.categories %}
+      <li>
+        <a href="/c/{{ cat[0] | slugify }}/">{{ cat[0] }}</a>{% unless forloop.last %},{% endunless %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
 </nav>
 {%- endif -%}
 
