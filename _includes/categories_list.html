@@ -1,9 +1,3 @@
-{%- comment -%}
-Liste des catégories (accueil).
-site.categories => tableau de [nom, posts[]]
-URLs attendues: /c-<slug>/
-{%- endcomment -%}
-
 {%- assign categories = site.categories | sort_natural -%}
 {%- if categories and categories != empty -%}
 <nav class="cats-nav" aria-label="Catégories">
