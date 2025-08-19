@@ -9,6 +9,18 @@ layout: default
     <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
   {% endif %}
 
+  {% if page.categories and page.categories.size > 0 %}
+  <div class="post-categories" style="margin:6px 0 14px 0;font-size:12px">
+    {% for cat in page.categories %}
+      <a
+        href="{{ '/c/' | append: (cat | slugify) | append: '/' | relative_url }}"
+        style="border-bottom:1px solid #e5e5e5"
+      >{{ cat }}</a>{% unless forloop.last %}<span class="sep"> · </span>{% endunless %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+
  {%- comment -%}
 Auto hero resolver pour les pages de post :
 - page.hero prioritaire
