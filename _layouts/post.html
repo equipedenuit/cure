@@ -4,10 +4,11 @@ layout: default
 
 
 <article>
-  <h2>{{ page.title }}</h2>
-  {% if page.date %}
-    <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
-  {% endif %}
+ <h2 class="post-title">
+  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+</h2>
+<p class="post-date">{{ post.date | date: "%d %B %Y" }}</p>
+
 
  {%- comment -%}
 Auto hero resolver pour les pages de post :
