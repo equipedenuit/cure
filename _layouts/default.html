@@ -222,27 +222,45 @@ blockquote footer a {
 }
 
 
+/* --- CONSISTENT TITLES & DATES EVERYWHERE --- */
 
-/* ---- Title/date styling everywhere ---- */
-/* Post titles (index, category, single) */
-.post-title {
-  margin: 0;
-  font-size: 2.4rem;           /* same everywhere */
-  line-height: 1.2;
-  font-weight: 700;
+/* Post titles (index, categories, single) */
+.post-title{
+  font-size:3.2rem;           /* same size everywhere */
+  font-weight:700;
+  line-height:1.15;
+  margin:0 0 .35rem 0;        /* tight gap above date */
+}
+.post-title a{
+  color:#4b0082;              /* web-1.0 violet link */
+  text-decoration:underline; 
+  text-decoration-thickness:3px;
+  text-underline-offset:6px;
+  border:0;
 }
 
-/* Date under the title — enforce the same look everywhere */
-p.post-date,
-.post .post-date,
-.single .post-date,
-h1 + .post-date {
-  font-size: 1.6rem !important;
-  line-height: 1.4;
-  color: #777;
-  margin: .4rem 0 1.6rem !important;   /* spacing matches the category page */
-  font-weight: 400;
+/* Date style (uniform everywhere) */
+.post-date{
+  font-size:1.2rem;           /* small, subtle */
+  color:#9d9d9d;
+  line-height:1.4;
+  margin:0 0 1.6rem 0;        /* gap below date before media/text */
+  font-weight:400;
 }
+
+/* Guards against any accidental inheritance that blew it up earlier */
+h1 .post-date,
+h2 .post-date,
+.post-title .post-date{
+  font-size:1.2rem !important;
+  color:#9d9d9d !important;
+  font-weight:400 !important;
+  margin:0 !important;
+}
+
+/* Optional: tiny tweak on single posts if you want it identical spacing */
+.layout-post .post-title{ margin-bottom:.35rem; }
+.layout-post .post-date{  margin-bottom:1.6rem; }
 
 
    
