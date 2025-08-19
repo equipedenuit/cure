@@ -223,6 +223,9 @@ blockquote footer a {
 {%- if page.url == '/' or page.permalink == '/' -%}
 {%- include categories_list.html -%}
 {%- endif -%}
+
+  {% comment %} Debug {% endcomment %}
+<div style="font-size:11px;color:#999">Catégories détectées: {{ site.categories | size }}</div>
   
   <div id="subscribe">
   <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/confirmation/">
