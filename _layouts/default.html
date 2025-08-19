@@ -220,6 +220,16 @@ blockquote footer a {
   text-decoration: underline;
 }
 
+.post-title {
+  margin-bottom: 0.2em; /* espace plus serré */
+}
+
+.post-date {
+  margin-top: 0;
+  margin-bottom: 1.2em; /* espace sous la date */
+  color: #666; /* comme déjà utilisé */
+  font-size: 0.9em;
+}
 
 
 
@@ -237,10 +247,6 @@ blockquote footer a {
 
 {%- include categories_list.html -%}
 
-
-
-
-  
   <div id="subscribe">
   <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/confirmation/">
     <input type="hidden" name="form-name" value="newsletter">
@@ -253,6 +259,11 @@ blockquote footer a {
 </div>
 
 <main class="page-content" aria-label="Content">
+  <h2 class="post-title">
+  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+</h2>
+<p class="post-date">{{ post.date | date: "%d %B %Y" }}</p>
+
   <div class="wrapper post-content">
   {{ content }}
   </div>
