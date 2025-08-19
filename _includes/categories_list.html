@@ -5,7 +5,17 @@
     {%- for pair in categories -%}
       {%- assign name  = pair[0] -%}
       {%- assign posts = pair[1] -%}
-      {%- assign slug  = name | slugify: 'pretty' -%}
+      {%- assign slug  = name
+          | downcase
+          | replace: '&', 'and'
+          | replace: '—', '-'
+          | replace: '–', '-'
+          | replace: ' ', '-'
+          | replace: '_', '-'
+          | replace: '.', ''
+          | replace: ':', ''
+          | replace: ';', ''
+      -%}
       <li>
         <a href="{{ '/c-' | append: slug | append: '/' | relative_url }}">{{ name }}</a>
         <span class="count">{{ posts | size }}</span>
