@@ -219,9 +219,10 @@ blockquote footer a {
   
 {% if site.description %}<div class="subtitle">{{ site.description }}</div>{% endif %}
 
-{%- if page.url == '/' or page.permalink == '/' -%}
-{%- include categories_list.html -%}
-{%- endif -%}
+{% if page.url == '/' or page.permalink == '/' %}
+  {% include categories_list.html %}
+{% endif %}
+
 
   
   <div id="subscribe">
