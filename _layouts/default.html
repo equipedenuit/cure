@@ -17,6 +17,7 @@
 
 
   <style>
+    
     /* Rendu proche Tumblr */
    body {
   font-family: "Times New Roman", serif;
@@ -247,7 +248,7 @@ h1 + .post-date {
    
   </style>
 </head>
-<body>
+<body class="layout-{{ page.layout | default: 'page' }}">
 <div class="wrapper">
   <h1><a href="{{ '/' | relative_url }}" title="Revenir à l’accueil"><span class="emdash">—</span>
   Cure</a></h1>
