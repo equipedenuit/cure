@@ -81,6 +81,10 @@ blockquote footer a {
   text-decoration: underline;
 }
 
+.post-content {
+  text-align: justify;
+}
+
     article{ margin: 0 0 3rem 0; }
     article h2{ font-size: 1.25rem; margin: .25rem 0; }
     .meta{ font-size: .9rem; color: #444; margin-bottom: .75rem; }
@@ -223,9 +227,11 @@ blockquote footer a {
 
 
 
-
+<main class="page-content" aria-label="Content">
+  <div class="wrapper post-content">
   {{ content }}
-
+  </div>
+</main>
 
 </body>
 </html>
