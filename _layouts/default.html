@@ -213,7 +213,7 @@ blockquote footer a {
   </style>
 </head>
 <body>
-
+<div class="wrapper">
   <h1><a href="{{ '/' | relative_url }}" title="Revenir à l’accueil"><span class="emdash">—</span>
   Cure</a></h1>
   
@@ -222,9 +222,7 @@ blockquote footer a {
 {%- if page.url == '/' or page.permalink == '/' -%}
 {%- include categories_list.html -%}
 {%- endif -%}
-
-
-
+  
   <div id="subscribe">
   <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/confirmation/">
     <input type="hidden" name="form-name" value="newsletter">
@@ -236,14 +234,11 @@ blockquote footer a {
   </form>
 </div>
 
-
-
-
-
 <main class="page-content" aria-label="Content">
   <div class="wrapper post-content">
   {{ content }}
   </div>
+    </div>
 </main>
 
 </body>
