@@ -205,14 +205,20 @@ blockquote footer a {
 /* Categories (Tumblr-like) */
 .cats-wrapper {
   text-align: center;
-  margin: 0 0 1em 0;
-  font-size: 1rem; /* taille normale */
+  margin: 1em 0;
 }
 
-.cats-wrapper a {
-  color: blue; /* style lien old web */
+.cats-wrapper .cat-link {
+  font-family: inherit;   /* hérite de la police principale */
+  font-size: 1rem;        /* taille normale du texte */
+  text-decoration: none;  /* tu peux mettre underline si tu veux le style web 1.0 */
+  color: #0000EE;         /* bleu "web 1.0" */
+}
+
+.cats-wrapper .cat-link:hover {
   text-decoration: underline;
 }
+
 
 
 
