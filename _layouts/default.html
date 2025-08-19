@@ -231,6 +231,28 @@ blockquote footer a {
   font-size: 0.9em;
 }
 
+    /* ---- Canonical title/date styling everywhere ---- */
+/* Title link colour like index */
+.post-title a:link,
+.post-title a:visited { color:#4b0082 !important; text-decoration: underline; }
+
+/* Title block spacing (no big gap above, tight under) */
+article .post-title,
+.wrapper .post-title,
+.post-title { margin: 0 0 .35rem 0 !important; }
+
+/* Date line: same size/colour/spacing as category list */
+article .post-date,
+.wrapper .post-date,
+.post-date {
+  margin: .35rem 0 1.2rem 0 !important;
+  color:#777 !important;
+  font-size:1.6rem !important;
+  line-height:1.25 !important;
+  font-weight:400 !important;
+  font-style: normal !important;
+}
+
    
   </style>
 </head>
