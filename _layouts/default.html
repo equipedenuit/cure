@@ -202,12 +202,24 @@ blockquote footer a {
     line-height: 1.5;
 }
 
-.cats-nav { margin: 14px 0 22px; }
-.cats { display:flex; flex-wrap:wrap; gap:10px 16px; list-style:none; padding:0; }
-.cats li { font-size:12px; }
-.cats a { color:#000; text-decoration:none; border-bottom:1px solid #e5e5e5; }
-.cats a:hover { border-color:#000; }
-.cats .count { color:#9d9d9d; font-size:11px; margin-left:4px; }
+/* Categories (Tumblr-like) */
+.cats{ text-align:center; margin:10px 0 18px; }
+.cats-list{ 
+  display:inline-flex; 
+  gap:18px; 
+  list-style:none; 
+  padding:0; 
+  margin:0; 
+  flex-wrap:wrap;
+}
+.cats-list a{
+  color:#00f;                 /* classic blue link */
+  text-decoration:underline;  /* web 1.0 underline */
+  font:inherit;               /* keep “normal” size */
+}
+.cats-list a:visited{ color:#551A8B; } /* classic visited purple */
+.cats-list a:hover{ color:#000; }      /* simple hover */
+
 
     
   </style>
