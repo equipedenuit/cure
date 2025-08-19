@@ -9,25 +9,28 @@ layout: default
     <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
   {% endif %}
 
-  {%- comment -%}
-Auto hero resolver:
-- prefers page.hero
-- else youtube thumbnail if page.youtube_id
-- else first <img> in content (works for markdown too via markdownify)
+ {%- comment -%}
+Auto hero resolver pour les pages de post :
+- page.hero prioritaire
+- sinon miniature YouTube (page.youtube_id)
+- sinon première image trouvée dans le contenu
+Si la source == "firstimg", on NE rend PAS de web-hero (pour éviter le doublon),
+on rend seulement l’email-fallback (caché sur web).
 {%- endcomment -%}
 
 {%- assign hero_url = nil -%}
+{%- assign hero_source = nil -%}
 
 {%- if page.hero and page.hero != "" -%}
   {%- assign hero_url = page.hero -%}
+  {%- assign hero_source = "front" -%}
 
 {%- elsif page.youtube_id and page.youtube_id != "" -%}
   {%- assign hero_url = "https://img.youtube.com/vi/" | append: page.youtube_id | append: "/hqdefault.jpg" -%}
+  {%- assign hero_source = "youtube" -%}
 
 {%- else -%}
-  {%- comment %} get HTML (if your post is markdown) {% endcomment -%}
   {%- assign html = page.content | markdownify -%}
-
   {%- if html contains '<img' -%}
     {%- assign split1 = html | split:'<img' -%}
     {%- assign after_img = split1[1] -%}
@@ -35,12 +38,12 @@ Auto hero resolver:
     {%- if split2.size > 1 -%}
       {%- assign split3 = split2[1] | split:'"' -%}
       {%- assign hero_url = split3[0] -%}
+      {%- assign hero_source = "firstimg" -%}
     {%- endif -%}
   {%- endif -%}
 {%- endif -%}
 
 {%- if hero_url -%}
-  {%- comment -%} prepare rel/abs safely (don’t re-relative an absolute URL) {%- endcomment -%}
   {%- if hero_url contains '://' -%}
     {%- assign hero_rel = hero_url -%}
     {%- assign hero_abs = hero_url -%}
@@ -49,12 +52,14 @@ Auto hero resolver:
     {%- assign hero_abs = hero_url | absolute_url -%}
   {%- endif -%}
 
-  <!-- Web hero -->
-  <div class="hero" style="margin:1rem 0">
-    <img src="{{ hero_rel }}" alt="{{ page.hero_alt | default: page.title }}">
-  </div>
+  {%- if hero_source != "firstimg" -%}
+    <!-- Web hero (pas de doublon) -->
+    <div class="hero" style="margin:1rem 0">
+      <img src="{{ hero_rel }}" alt="{{ page.hero_alt | default: page.title }}">
+    </div>
+  {%- endif -%}
 
-  <!-- Email fallback hero (hidden on web via @media screen) -->
+  <!-- Email fallback (toujours présent, mais caché sur web) -->
   <div class="email-preview" style="margin:1rem 0">
     <a href="{{ hero_abs }}">
       <img src="{{ hero_abs }}" alt="{{ page.hero_alt | default: page.title }}"
@@ -62,6 +67,7 @@ Auto hero resolver:
     </a>
   </div>
 {%- endif -%}
+
 
 
   {{ content }}
