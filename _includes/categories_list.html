@@ -1,26 +1,60 @@
-{%- assign categories = site.categories | sort_natural -%}
-{%- if categories and categories != empty -%}
+{%- comment -%}
+Liste horizontale des catégories. 
+- Aucun slugify (on fabrique un slug simple à la main).
+- Ne rien afficher si pas de catégories.
+- Compatible si site.categories est vide (reconstruit via site.posts).
+{%- endcomment -%}
+
+{%- assign categories_hash = site.categories -%}
+
+{%- if categories_hash == nil or categories_hash == empty -%}
+  {%- comment %}Fallback: reconstruire depuis les posts si site.categories est vide{% endcomment -%}
+  {%- assign _all = "" | split: "" -%}
+  {%- for p in site.posts -%}
+    {%- assign cats = p.categories | default: empty -%}
+    {%- if cats and cats != empty -%}
+      {%- for c in cats -%}{%- assign _all = _all | push: c -%}{%- endfor -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign _uniq = _all | uniq | sort_natural -%}
+  {%- assign categories_list = _uniq -%}
+{%- else -%}
+  {%- comment %}site.categories est un hash: [name] => [posts...]{% endcomment -%}
+  {%- assign categories_list = "" | split: "" -%}
+  {%- for pair in categories_hash -%}
+    {%- assign _name = pair[0] -%}
+    {%- assign categories_list = categories_list | push: _name -%}
+  {%- endfor -%}
+  {%- assign categories_list = categories_list | uniq | sort_natural -%}
+{%- endif -%}
+
+{%- if categories_list and categories_list != empty -%}
 <nav class="cats-nav" aria-label="Catégories">
   <ul class="cats">
-    {%- for pair in categories -%}
-      {%- assign name  = pair[0] -%}
-      {%- assign posts = pair[1] -%}
-      {%- assign slug  = name
+    {%- for name in categories_list -%}
+      {%- assign slug = name
           | downcase
           | replace: '&', 'and'
-          | replace: '—', '-'
-          | replace: '–', '-'
-          | replace: ' ', '-'
-          | replace: '_', '-'
-          | replace: '.', ''
-          | replace: ':', ''
-          | replace: ';', ''
+          | replace: '—','-'
+          | replace: '–','-'
+          | replace: ' ','-'
+          | replace: '_','-'
+          | replace: '.',''
+          | replace: ':',''
+          | replace: ';',''
       -%}
-      <li>
+      <li class="cat-item">
         <a href="{{ '/c-' | append: slug | append: '/' | relative_url }}">{{ name }}</a>
-        <span class="count">{{ posts | size }}</span>
       </li>
     {%- endfor -%}
   </ul>
 </nav>
 {%- endif -%}
+
+<style>
+  /* Mini style (facultatif) */
+  .cats-nav{margin:1.2rem 0 2.2rem}
+  .cats{display:flex;flex-wrap:wrap;gap:.6rem 1rem;padding:0;margin:0;list-style:none}
+  .cat-item a{border-bottom:1px solid #e5e5e5;text-decoration:none;color:#000}
+  .cat-item a:hover{border-color:#000}
+</style>
