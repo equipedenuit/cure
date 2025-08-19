@@ -1,6 +1,21 @@
 ---
 layout: default
 ---
+  @media screen {
+    .email-preview { display: none; }
+  }
+
+    /* Embeds responsives (YouTube, Mixcloud…) */
+    iframe{
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;  /* écrase la hauteur fixe */
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    img, video{ max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
 <article>
   <h2>{{ page.title }}</h2>
