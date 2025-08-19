@@ -17,6 +17,7 @@ collections:
     fields:
       - {label: "Titre", name: "title", widget: "string"}
       - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Catégories", name: "categories", widget: "list", allow_add: true, summary: "{{fields.item}}", hint: "Ex: Musique, Anime, Critique" }
       - {label: "Image (pour email/RSS)", name: "image", widget: "image", required: false}
       - {label: "Contenu", name: "body", widget: "markdown"}
 
