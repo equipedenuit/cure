@@ -6,6 +6,14 @@ permalink: pretty
 plugins:
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-archives
+jekyll-archives:
+  enabled:
+    - categories
+  layouts:
+    category: archive
+  permalinks:
+    category: /c/:name/
 markdown: kramdown
 paginate: 20                 # 20 articles par page
 paginate_path: "/page:num/"  # /page2, /page3, …
