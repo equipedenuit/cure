@@ -1,6 +1,7 @@
 {%- comment -%}
-Liste des catégories (accueil). 
-site.categories est un tableau de [nom, posts[]]
+Liste des catégories (accueil).
+site.categories => tableau de [nom, posts[]]
+URLs attendues: /c-<slug>/
 {%- endcomment -%}
 
 {%- assign categories = site.categories | sort_natural -%}
@@ -8,7 +9,7 @@ site.categories est un tableau de [nom, posts[]]
 <nav class="cats-nav" aria-label="Catégories">
   <ul class="cats">
     {%- for pair in categories -%}
-      {%- assign name = pair[0] -%}
+      {%- assign name  = pair[0] -%}
       {%- assign posts = pair[1] -%}
       {%- assign slug  = name | slugify: 'pretty' -%}
       <li>
