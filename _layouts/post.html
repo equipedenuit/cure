@@ -8,5 +8,60 @@ layout: default
     <div class="meta">{{ page.date | date: "%-d %B %Y" }}</div>
   {% endif %}
 
+  {%- comment -%}
+Auto hero resolver:
+- prefers page.hero
+- else youtube thumbnail if page.youtube_id
+- else first <img> in content (works for markdown too via markdownify)
+{%- endcomment -%}
+
+{%- assign hero_url = nil -%}
+
+{%- if page.hero and page.hero != "" -%}
+  {%- assign hero_url = page.hero -%}
+
+{%- elsif page.youtube_id and page.youtube_id != "" -%}
+  {%- assign hero_url = "https://img.youtube.com/vi/" | append: page.youtube_id | append: "/hqdefault.jpg" -%}
+
+{%- else -%}
+  {%- comment %} get HTML (if your post is markdown) {% endcomment -%}
+  {%- assign html = page.content | markdownify -%}
+
+  {%- if html contains '<img' -%}
+    {%- assign split1 = html | split:'<img' -%}
+    {%- assign after_img = split1[1] -%}
+    {%- assign split2 = after_img | split:'src="' -%}
+    {%- if split2.size > 1 -%}
+      {%- assign split3 = split2[1] | split:'"' -%}
+      {%- assign hero_url = split3[0] -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if hero_url -%}
+  {%- comment -%} prepare rel/abs safely (don’t re-relative an absolute URL) {%- endcomment -%}
+  {%- if hero_url contains '://' -%}
+    {%- assign hero_rel = hero_url -%}
+    {%- assign hero_abs = hero_url -%}
+  {%- else -%}
+    {%- assign hero_rel = hero_url | relative_url -%}
+    {%- assign hero_abs = hero_url | absolute_url -%}
+  {%- endif -%}
+
+  <!-- Web hero -->
+  <div class="hero" style="margin:1rem 0">
+    <img src="{{ hero_rel }}" alt="{{ page.hero_alt | default: page.title }}">
+  </div>
+
+  <!-- Email fallback hero (hidden on web via @media screen) -->
+  <div class="email-preview" style="margin:1rem 0">
+    <a href="{{ hero_abs }}">
+      <img src="{{ hero_abs }}" alt="{{ page.hero_alt | default: page.title }}"
+           style="max-width:100%;height:auto;border:0;">
+    </a>
+  </div>
+{%- endif -%}
+
+
   {{ content }}
 </article>
