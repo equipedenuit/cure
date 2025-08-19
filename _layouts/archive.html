@@ -16,7 +16,7 @@ layout: default
           {% assign postslist = page.posts | default: site.posts %}
           {% for p in postslist %}
             <li style="margin:0 0 15px 0;padding:0">
-              <a href="{{ p.url | relative_url }}" style="font-weight:bold;">{{ p.title }}</a>
+              <a href="{{ p.url | relative_url }}" style="font-weight:bold; font-size:1.25rem">{{ p.title }}</a>
               <div style="color:#9d9d9d;font-size:11px">{{ p.date | date: "%-d %B %Y" }}</div>
             </li>
           {% endfor %}
