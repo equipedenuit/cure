@@ -11,6 +11,7 @@
 <body class="variant-{{ page.variant }}">
   <nav class="preview-switcher" aria-label="Choisir une proposition">
     <span class="preview-label">APERÇU</span>
+    <a{% if page.variant == 'index64' %} class="active"{% endif %} href="{{ '/design-previews/index64/' | relative_url }}">1 · Index 64</a>
     <a{% if page.variant == 'mono-tokyo' %} class="active"{% endif %} href="{{ '/design-previews/mono-tokyo/' | relative_url }}">2 · Mono Tokyo</a>
     <a{% if page.variant == 'imode' %} class="active"{% endif %} href="{{ '/design-previews/imode/' | relative_url }}">3 · i-mode clair</a>
     <a{% if page.variant == 'editorial' %} class="active"{% endif %} href="{{ '/design-previews/editorial/' | relative_url }}">4 · Éditorial 99</a>
@@ -82,8 +83,17 @@
           <span>17.08.2025</span>
         </aside>
         <div class="next-copy">
-          <span class="entry-code">NEXT SIGNAL</span>
-          <h2><a href="#">U2 — The Wanderer</a></h2>
+          <span class="entry-code">CURE.LOG/002 — MUSIQUE</span>
+          <h2><a href="{{ '/2025/08/17/u2-the-wanderer/' | relative_url }}">U2 — The Wanderer</a></h2>
+          <p class="post-date">17 août 2025</p>
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/d-dZvQxYX1g"
+              title="U2 — The Wanderer"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
           <p>Country Kraftwerkienne</p>
         </div>
       </article>
@@ -91,7 +101,7 @@
 
     <footer class="site-footer">
       <span>CURE © 2025</span>
-      <span>SELECTED SIGNALS / PARIS</span>
+      <span>MUSIQUE + ANIMATION / PARIS</span>
     </footer>
   </div>
 </body>
