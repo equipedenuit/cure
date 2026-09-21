@@ -2,7 +2,7 @@
   <div class="cats-wrapper">
     {% assign sorted_cats = site.categories | sort %}
     {% for cat in sorted_cats %}
-      <a href="/c-{{ cat[0] | slugify }}/">{{ cat[0] }}</a>{% unless forloop.last %}, {% endunless %}
+      <a class="cat-link" href="/c-{{ cat[0] | slugify }}/">{{ cat[0] }}</a>{% unless forloop.last %}<span class="sep" aria-hidden="true">·</span>{% endunless %}
     {% endfor %}
   </div>
 {% endif %}

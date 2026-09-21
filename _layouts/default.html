@@ -12,20 +12,22 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png?v=4' | relative_url }}">
   <meta name="theme-color" content="#ffffff">
 
-  <!-- Titre (Yuji Syuku) -->
-  <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
+  <!-- Logo et serif de lecture -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Yuji+Syuku&display=swap" rel="stylesheet">
 
   <style>
     /* Colonne de lecture */
     body{
-      font-family:"Times New Roman", serif;
-      font-size:1rem;
+      font-family:"Noto Serif", Georgia, "Times New Roman", serif;
+      font-size:1.0625rem;
       max-width:720px;
       margin:0 auto;
       padding:2rem 1rem;
-      line-height:1.6;
-      color:#111;
+      line-height:1.68;
+      color:#1b1b1b;
       background:#fff;
+      font-kerning:normal;
+      text-rendering:optimizeLegibility;
     }
 
     /* Logo / Titre de site */
@@ -40,17 +42,22 @@
     a{color:#0000EE;text-decoration:underline}
     a:visited{color:#551A8B}
 
-    /* Liste de catégories (style Tumblr, centrée, virgules) */
-    .cats-wrapper{ text-align:center; margin:1em 0 }
-    .cats-wrapper .cat-link{ font:inherit; font-size:1rem; color:#0000EE; text-decoration:none }
-    .cats-wrapper .cat-link:hover{ text-decoration:underline }
-    .cats-wrapper .sep{ margin:0 .25em }
+    /* Navigation compacte, dans l’esprit des pages personnelles de l’époque */
+    .cats-wrapper{
+      text-align:center; margin:.9rem 0 1.4rem;
+      font-family:Verdana, Geneva, Arial, sans-serif; font-size:.75rem;
+    }
+    .cats-wrapper .cat-link{ color:#0000EE; text-decoration:underline }
+    .cats-wrapper .sep{ margin:0 .4em; color:#777 }
 
     /* Articles */
     article{ margin:0 }
-    article h2{ font-size:1.45rem; margin:.25rem 0 }
-    .meta,.post-date{ font-size:.8rem; color:#777; margin:.25rem 0 1rem }
-    hr{ border:0; border-top:1px solid #ddd; margin:3.5rem 0 }
+    article h2{ font-size:1.4rem; line-height:1.3; font-weight:600; margin:.25rem 0 }
+    .meta,.post-date{
+      font-family:Verdana, Geneva, Arial, sans-serif;
+      font-size:.75rem; line-height:1.4; color:#666; margin:.35rem 0 1.15rem;
+    }
+    hr{ border:0; border-top:1px solid #c9c9c9; margin:4rem 0 3.5rem }
 
     /* Lecture naturelle, sans espaces irréguliers entre les mots */
     .post-content{ text-align:left }
@@ -64,25 +71,32 @@
     .layout-page .email-preview { display: none !important; }
 
     /* Formulaire d’abonnement */
-    #subscribe{ width:100%; max-width:640px; margin:1.5rem auto 3.5rem; padding:0; box-sizing:border-box }
-    #subscribe form{ display:flex; align-items:center; justify-content:center; gap:.75rem; flex-wrap:nowrap }
-    #subscribe .sub-label{ flex:0 0 auto; white-space:nowrap; margin:0; font:inherit; font-size:.9rem }
+    #subscribe{
+      width:100%; max-width:640px; margin:0 auto 3.75rem; padding:.8rem 0;
+      box-sizing:border-box; border-top:1px solid #d5d5d5; border-bottom:1px solid #d5d5d5;
+      font-family:Verdana, Geneva, Arial, sans-serif;
+    }
+    #subscribe form{ display:flex; align-items:center; justify-content:center; gap:.6rem; flex-wrap:nowrap }
+    #subscribe .sub-label{ flex:0 0 auto; white-space:nowrap; margin:0; font-size:.72rem }
     #subscribe input[type="email"], #subscribe button{
       box-sizing:border-box; -webkit-appearance:none; appearance:none; border-radius:0;
-      font:inherit; line-height:1.2; min-height:44px;
+      font-family:inherit; line-height:1.2; min-height:38px;
     }
-    #subscribe input[type="email"]{ flex:1 1 auto; min-width:0; padding:.5rem .75rem; border:1px solid #000; background:#fff; color:#000; font-size:16px }
-    #subscribe button{ flex:0 0 auto; padding:.5rem 1rem; border:1px solid #000; background:#fff; color:#000; cursor:pointer; white-space:nowrap }
-    #subscribe button:hover{ background:#000; color:#fff }
+    #subscribe input[type="email"]{ flex:1 1 auto; min-width:0; padding:.45rem .65rem; border:1px solid #777; background:#fff; color:#000; font-size:14px }
+    #subscribe button{ flex:0 0 auto; padding:.45rem .85rem; border:1px solid #777; background:#eee; color:#000; cursor:pointer; white-space:nowrap; font-size:.75rem }
+    #subscribe button:hover{ background:#ddd }
     #subscribe button:disabled{ background:#f5f5f5; color:#000; opacity:.6; cursor:not-allowed }
     @media (max-width:900px){
       #subscribe form{ flex-wrap:wrap }
       #subscribe .sub-label{ flex:1 1 100%; text-align:center; white-space:normal; margin-bottom:.5rem }
     }
-    @media (max-width:520px){ #subscribe input[type="email"], #subscribe button{ width:100% } }
+    @media (max-width:520px){
+      body{ font-size:1rem; line-height:1.65 }
+      #subscribe input[type="email"], #subscribe button{ width:100%; min-height:44px }
+    }
 
     /* Citations */
-    blockquote{ margin:1.5rem 0; padding-left:1rem; border-left:3px solid #000; font-style:italic; color:#555; line-height:1.5 }
+    blockquote{ margin:1.75rem 0; padding-left:1.1rem; border-left:2px solid #bbb; font-style:italic; color:#444; line-height:1.6 }
     blockquote footer{ margin-top:.5rem; font-style:normal; font-size:.9em; color:#333 }
     blockquote footer a{ color:#333; text-decoration:underline }
   </style>
@@ -106,7 +120,7 @@
       <input type="hidden" name="form-name" value="newsletter">
       <p style="display:none;"><label>Ne pas remplir : <input name="bot-field"></label></p>
 
-      <label for="email" class="sub-label">Recevoir les nouveaux posts par email</label>
+      <label for="email" class="sub-label">Recevoir les nouveaux posts par email :</label>
       <input id="email" name="email" type="email" required placeholder="votre@email.com" aria-label="Adresse email">
       <button type="submit" aria-label="S’abonner">S’abonner</button>
     </form>
