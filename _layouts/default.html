@@ -23,7 +23,7 @@
       max-width:720px;
       margin:0 auto;
       padding:2rem 1rem;
-      line-height:1.5;
+      line-height:1.6;
       color:#111;
       background:#fff;
     }
@@ -47,12 +47,13 @@
     .cats-wrapper .sep{ margin:0 .25em }
 
     /* Articles */
-    article{ margin:0 0 3rem }
-    article h2{ font-size:1.25rem; margin:.25rem 0 }
-    .meta{ font-size:11px; color:#9d9d9d; margin-bottom:.75rem }
+    article{ margin:0 }
+    article h2{ font-size:1.45rem; margin:.25rem 0 }
+    .meta,.post-date{ font-size:.8rem; color:#777; margin:.25rem 0 1rem }
+    hr{ border:0; border-top:1px solid #ddd; margin:3.5rem 0 }
 
-    /* Contenu justifié */
-    .post-content{ text-align:justify }
+    /* Lecture naturelle, sans espaces irréguliers entre les mots */
+    .post-content{ text-align:left }
 
     /* Embeds responsives */
     iframe{ width:100%; max-width:100%; aspect-ratio:16/9; height:auto; display:block; margin:0 auto }
@@ -63,9 +64,9 @@
     .layout-page .email-preview { display: none !important; }
 
     /* Formulaire d’abonnement */
-    #subscribe{ width:100%; margin:1.5rem 0 2rem; padding:0; box-sizing:border-box }
+    #subscribe{ width:100%; max-width:640px; margin:1.5rem auto 3.5rem; padding:0; box-sizing:border-box }
     #subscribe form{ display:flex; align-items:center; justify-content:center; gap:.75rem; flex-wrap:nowrap }
-    #subscribe .sub-label{ flex:0 0 auto; white-space:nowrap; margin:0; font:inherit }
+    #subscribe .sub-label{ flex:0 0 auto; white-space:nowrap; margin:0; font:inherit; font-size:.9rem }
     #subscribe input[type="email"], #subscribe button{
       box-sizing:border-box; -webkit-appearance:none; appearance:none; border-radius:0;
       font:inherit; line-height:1.2; min-height:44px;
@@ -111,76 +112,9 @@
     </form>
   </div>
 
-  <!-- CONTENU : LISTE DES POSTS -->
+  <!-- CONTENU DE LA PAGE -->
   <main class="page-content" aria-label="Content">
-    {% for post in site.posts %}
-      <article>
-        <h2 class="post-title">
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        </h2>
-        <p class="meta">{{ post.date | date: "%d %B %Y" }}</p>
-
-        {%- comment -%}
-        Auto hero resolver pour l’index :
-        - post.hero prioritaire
-        - sinon miniature YouTube (post.youtube_id)
-        - sinon première image trouvée dans le contenu (dans ce cas, on ne rajoute PAS d’image web pour éviter le doublon ; on laisse l’image du contenu)
-        Toujours : générer un fallback e-mail cliquable (caché sur web).
-        {%- endcomment -%}
-
-        {%- assign hero_url = nil -%}
-        {%- assign hero_source = nil -%}
-
-        {%- if post.hero and post.hero != "" -%}
-          {%- assign hero_url = post.hero -%}
-          {%- assign hero_source = "front" -%}
-        {%- elsif post.youtube_id and post.youtube_id != "" -%}
-          {%- assign hero_url = "https://img.youtube.com/vi/" | append: post.youtube_id | append: "/hqdefault.jpg" -%}
-          {%- assign hero_source = "youtube" -%}
-        {%- else -%}
-          {%- assign html = post.content | markdownify -%}
-          {%- if html contains '<img' -%}
-            {%- assign split1 = html | split:'<img' -%}
-            {%- assign after_img = split1[1] -%}
-            {%- assign split2 = after_img | split:'src="' -%}
-            {%- if split2.size > 1 -%}
-              {%- assign split3 = split2[1] | split:'"' -%}
-              {%- assign hero_url = split3[0] -%}
-              {%- assign hero_source = "firstimg" -%}
-            {%- endif -%}
-          {%- endif -%}
-        {%- endif -%}
-
-        {%- if hero_url -%}
-          {%- if hero_url contains '://' -%}
-            {%- assign hero_rel = hero_url -%}
-            {%- assign hero_abs = hero_url -%}
-          {%- else -%}
-            {%- assign hero_rel = hero_url | relative_url -%}
-            {%- assign hero_abs = hero_url | absolute_url -%}
-          {%- endif -%}
-
-          {%- if hero_source == "front" -%}
-            <!-- Web hero explicite uniquement. Les vidéos et images déjà présentes
-                 dans le contenu ne sont pas répétées. -->
-            <div class="hero" style="margin:1rem 0">
-              <img src="{{ hero_rel }}" alt="{{ post.hero_alt | default: post.title }}">
-            </div>
-          {%- endif -%}
-
-          <!-- Email fallback (toujours présent, mais caché sur web) -->
-          <div class="email-preview" style="margin:1rem 0">
-            <a href="{{ hero_abs }}">
-              <img src="{{ hero_abs }}" alt="{{ post.hero_alt | default: post.title }}" style="max-width:100%;height:auto;border:0;">
-            </a>
-          </div>
-        {%- endif -%}
-
-        <div class="post-content">
-          {{ post.content }}
-        </div>
-      </article>
-    {% endfor %}
+    {{ content }}
   </main>
 </body>
 </html>

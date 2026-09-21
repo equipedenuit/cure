@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<main class="middle clear">
+<section class="middle clear">
   <div id="content">
     <article class="post">
       <header class="post-header" style="border-top:1px solid #e9e9e9;padding-top:15px;margin-bottom:20px">
@@ -17,11 +17,11 @@ layout: default
           {% for p in postslist %}
             <li style="margin:0 0 15px 0;padding:0">
               <a href="{{ p.url | relative_url }}" style="font-weight:bold; font-size:1.25rem">{{ p.title }}</a>
-              <div style="color:#9d9d9d;font-size:11px">{{ p.date | date: "%-d %B %Y" }}</div>
+              <div class="post-date">{% include date_fr.html date=p.date %}</div>
             </li>
           {% endfor %}
         </ul>
       </div>
     </article>
   </div>
-</main>
+</section>
