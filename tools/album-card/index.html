@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Cure / Générateur de critique d’album</title>
+  <style>
+    :root {
+      --ink: #17191c;
+      --muted: #69717a;
+      --line: #b9c0c7;
+      --soft: #eef0f2;
+      --blue: #31567d;
+      --paper: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Arial, Helvetica, "Liberation Sans", sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    a { color: var(--blue); }
+
+    .shell {
+      width: min(940px, calc(100% - 32px));
+      margin: 28px auto 64px;
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 24px;
+      padding-bottom: 11px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .system {
+      color: var(--muted);
+      font: 10px/1.2 "Courier New", Courier, monospace;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 24px;
+      padding: 18px 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .intro-label {
+      color: var(--muted);
+      font: 10px/1.4 "Courier New", Courier, monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .intro p { max-width: 640px; margin: 0; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+      gap: 34px;
+      padding-top: 25px;
+    }
+
+    .panel-title {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 0 14px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--ink);
+      font: 700 11px/1.2 "Courier New", Courier, monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .field { margin: 0 0 14px; }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font: 10px/1.2 "Courier New", Courier, monospace;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      background: #fff;
+      color: var(--ink);
+      font: 14px/1.35 Arial, Helvetica, sans-serif;
+      outline: none;
+    }
+
+    input,
+    select { height: 38px; padding: 8px 9px; }
+    textarea { min-height: 128px; padding: 9px; resize: vertical; }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--blue);
+      box-shadow: inset 3px 0 0 var(--blue);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .fetch-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 7px;
+    }
+
+    button {
+      min-height: 38px;
+      padding: 7px 11px;
+      border: 1px solid var(--ink);
+      border-radius: 0;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      font: 700 10px/1.2 "Courier New", Courier, monospace;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    button:hover { background: var(--blue); border-color: var(--blue); }
+
+    button.secondary {
+      background: #fff;
+      color: var(--ink);
+    }
+
+    button.secondary:hover { color: var(--blue); }
+
+    .status {
+      min-height: 18px;
+      margin: -4px 0 12px;
+      color: var(--muted);
+      font: 10px/1.4 "Courier New", Courier, monospace;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .preview-box {
+      min-height: 280px;
+      padding: 22px 20px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .hint {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font: 10px/1.5 "Courier New", Courier, monospace;
+    }
+
+    .code-output {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: pre;
+    }
+
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 20px, 620px); margin-top: 16px; }
+      .intro { grid-template-columns: 1fr; gap: 6px; }
+      .workspace { grid-template-columns: 1fr; gap: 30px; }
+      .preview-box { padding: 14px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <h1 class="brand">— Cure</h1>
+      <div class="system">Ghost album-card generator / v1.0</div>
+    </header>
+
+    <section class="intro">
+      <div class="intro-label">Mode d’emploi</div>
+      <p>Colle l’URL Spotify, complète l’artiste, la note et la critique, puis copie le bloc dans une carte <strong>HTML</strong> de Ghost. La pochette est enregistrée dans le bloc : elle restera visible sur le site et dans la newsletter.</p>
+    </section>
+
+    <div class="workspace">
+      <section aria-labelledby="form-title">
+        <h2 class="panel-title" id="form-title"><span>Données</span><span>01</span></h2>
+
+        <div class="field">
+          <label for="spotify">URL de l’album Spotify</label>
+          <div class="fetch-row">
+            <input id="spotify" type="url" inputmode="url" placeholder="https://open.spotify.com/album/…" autocomplete="off">
+            <button type="button" id="fetch">Récupérer</button>
+          </div>
+        </div>
+
+        <div class="status" id="status" aria-live="polite">En attente d’une URL Spotify.</div>
+
+        <div class="row">
+          <div class="field">
+            <label for="artist">Artiste</label>
+            <input id="artist" type="text" placeholder="Mal Waldron">
+          </div>
+          <div class="field">
+            <label for="album">Album</label>
+            <input id="album" type="text" placeholder="The Quest">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="rating">Note</label>
+            <select id="rating">
+              <option value="5">5 / 5</option>
+              <option value="4.5">4,5 / 5</option>
+              <option value="4" selected>4 / 5</option>
+              <option value="3.5">3,5 / 5</option>
+              <option value="3">3 / 5</option>
+              <option value="2.5">2,5 / 5</option>
+              <option value="2">2 / 5</option>
+              <option value="1.5">1,5 / 5</option>
+              <option value="1">1 / 5</option>
+              <option value="0.5">0,5 / 5</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="number">Numéro</label>
+            <input id="number" type="number" min="1" max="99" value="1">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="review">Critique</label>
+          <textarea id="review" placeholder="Ton avis sur l’album…"></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="copy">Copier pour Ghost</button>
+          <button type="button" class="secondary" id="reset">Effacer</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="preview-title">
+        <h2 class="panel-title" id="preview-title"><span>Aperçu</span><span>Live</span></h2>
+        <div class="preview-box" id="preview"></div>
+        <p class="hint">Dans Ghost : ajoute une carte HTML, colle le bloc, puis répète l’opération pour chaque album. Aucun compte Spotify ni clé API n’est nécessaire.</p>
+      </section>
+    </div>
+
+    <textarea class="code-output" id="output" aria-hidden="true" tabindex="-1"></textarea>
+  </main>
+
+  <script>
+    const spotifyInput = document.querySelector('#spotify');
+    const artistInput = document.querySelector('#artist');
+    const albumInput = document.querySelector('#album');
+    const ratingInput = document.querySelector('#rating');
+    const numberInput = document.querySelector('#number');
+    const reviewInput = document.querySelector('#review');
+    const status = document.querySelector('#status');
+    const preview = document.querySelector('#preview');
+    const output = document.querySelector('#output');
+    let coverUrl = '';
+
+    const escapeHtml = (value) => String(value || '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
+    const CARD_CSS = `<style>
+.cure-album-review,.cure-album-review *{box-sizing:border-box}.cure-album-review{--cure-ink:#17191c;--cure-muted:#69717a;--cure-line:#b9c0c7;--cure-blue:#31567d;display:grid;grid-template-columns:minmax(132px,164px) minmax(0,1fr);width:100%;margin:2.25rem 0;border-top:2px solid var(--cure-ink);border-bottom:1px solid var(--cure-ink);background:#fff;color:var(--cure-ink);font-family:Arial,Helvetica,"Liberation Sans",sans-serif}.cure-album-review__cover-link{display:block;padding:12px;border-right:1px solid var(--cure-line);line-height:0}.cure-album-review__cover{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#e8eaec}.cure-album-review__body{min-width:0;padding:10px 0 12px 15px}.cure-album-review__rail{display:flex;align-items:center;justify-content:space-between;min-height:19px;padding:0 10px 8px 0;border-bottom:1px solid var(--cure-line);color:var(--cure-muted);font:10px/1.1 "Courier New",Courier,monospace;letter-spacing:.09em;text-transform:uppercase}.cure-album-review__rail-label:before{content:"";display:inline-block;width:6px;height:6px;margin:0 7px 1px 0;background:var(--cure-blue)}.cure-album-review__head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:11px 12px 0 0}.cure-album-review__artist{margin:0 0 3px;color:var(--cure-muted);font:700 11px/1.2 Arial,Helvetica,sans-serif;letter-spacing:.08em;text-transform:uppercase}.cure-album-review__title{margin:0;color:var(--cure-ink);font:700 22px/1.08 Arial,Helvetica,sans-serif;letter-spacing:-.025em}.cure-album-review__rating{display:flex;align-items:baseline;flex:0 0 auto;white-space:nowrap}.cure-album-review__stars{position:relative;display:inline-block;margin-right:7px;color:#c7ccd1;font-size:14px;letter-spacing:1px}.cure-album-review__stars-fill{position:absolute;inset:0 auto 0 0;overflow:hidden;color:var(--cure-blue);white-space:nowrap}.cure-album-review__score{font:700 14px/1 "Courier New",Courier,monospace}.cure-album-review__outof{margin-left:2px;color:var(--cure-muted);font:10px/1 "Courier New",Courier,monospace}.cure-album-review__copy{margin:12px 12px 11px 0;color:#272a2e;font:14px/1.5 Arial,Helvetica,sans-serif}.cure-album-review__listen{display:inline-block;padding-bottom:1px;border-bottom:1px solid currentColor;color:var(--cure-blue);font:700 10px/1.25 "Courier New",Courier,monospace;letter-spacing:.08em;text-decoration:none;text-transform:uppercase}.cure-album-review__listen:hover{color:var(--cure-ink)}@media(max-width:520px){.cure-album-review{grid-template-columns:106px minmax(0,1fr);margin:1.75rem 0}.cure-album-review__cover-link{padding:9px}.cure-album-review__body{padding:8px 0 10px 11px}.cure-album-review__rail{padding:0 8px 6px 0;font-size:9px}.cure-album-review__head{display:block;padding:9px 8px 0 0}.cure-album-review__title{font-size:18px}.cure-album-review__rating{margin-top:7px}.cure-album-review__copy{margin:9px 8px 8px 0;font-size:13px;line-height:1.42}}
+</style>`;
+
+    function buildCard() {
+      const spotify = escapeHtml(spotifyInput.value.trim() || 'https://open.spotify.com/');
+      const artist = escapeHtml(artistInput.value.trim() || 'ARTISTE');
+      const album = escapeHtml(albumInput.value.trim() || 'ALBUM');
+      const rating = Number(ratingInput.value || 0);
+      const ratingLabel = String(rating).replace('.', ',');
+      const fill = Math.max(0, Math.min(100, rating * 20));
+      const number = String(Math.max(1, Math.min(99, Number(numberInput.value) || 1))).padStart(2, '0');
+      const review = escapeHtml(reviewInput.value.trim() || 'Ton avis vient ici. Le bloc reste compact pour pouvoir enchaîner plusieurs albums sans donner l’impression d’un catalogue marchand.').replaceAll('\n', '<br>');
+      const cover = escapeHtml(coverUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect width=%22300%22 height=%22300%22 fill=%22%23e8eaec%22/%3E%3Cpath d=%22M70 150h160M150 70v160%22 stroke=%22%2369717a%22 stroke-width=%222%22/%3E%3C/svg%3E');
+      const alt = escapeHtml(`${album} — ${artist}`);
+
+      return `${CARD_CSS}
+<section class="cure-album-review">
+  <a class="cure-album-review__cover-link" href="${spotify}" target="_blank" rel="noopener">
+    <img class="cure-album-review__cover" src="${cover}" alt="${alt}" width="300" height="300">
+  </a>
+  <div class="cure-album-review__body">
+    <div class="cure-album-review__rail">
+      <span class="cure-album-review__rail-label">Cure / Music review</span>
+      <span>${number}</span>
+    </div>
+    <div class="cure-album-review__head">
+      <div>
+        <p class="cure-album-review__artist">${artist}</p>
+        <h3 class="cure-album-review__title">${album}</h3>
+      </div>
+      <div class="cure-album-review__rating" aria-label="${ratingLabel} sur 5">
+        <span class="cure-album-review__stars" aria-hidden="true">★★★★★<span class="cure-album-review__stars-fill" style="width:${fill}%">★★★★★</span></span>
+        <span class="cure-album-review__score">${rating.toFixed(1)}</span><span class="cure-album-review__outof">/5</span>
+      </div>
+    </div>
+    <p class="cure-album-review__copy">${review}</p>
+    <a class="cure-album-review__listen" href="${spotify}" target="_blank" rel="noopener">Écouter sur Spotify ↗</a>
+  </div>
+</section>`;
+    }
+
+    function render() {
+      const card = buildCard();
+      preview.innerHTML = card;
+      output.value = card;
+    }
+
+    async function fetchSpotify() {
+      const url = spotifyInput.value.trim();
+      if (!/^https:\/\/(open\.spotify\.com|spotify\.link)\//i.test(url)) {
+        status.textContent = 'URL Spotify non reconnue.';
+        return;
+      }
+
+      status.textContent = 'Récupération de la pochette…';
+
+      try {
+        const response = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`);
+        if (!response.ok) throw new Error('Spotify oEmbed');
+        const data = await response.json();
+        coverUrl = data.thumbnail_url || '';
+        if (!albumInput.value.trim() && data.title) albumInput.value = data.title;
+        status.textContent = coverUrl ? 'Pochette et titre récupérés.' : 'Titre récupéré, mais aucune pochette trouvée.';
+        render();
+      } catch (error) {
+        coverUrl = '';
+        status.textContent = 'Impossible de récupérer cet album. Vérifie le lien Spotify.';
+        render();
+      }
+    }
+
+    document.querySelector('#fetch').addEventListener('click', fetchSpotify);
+    spotifyInput.addEventListener('change', fetchSpotify);
+
+    [artistInput, albumInput, ratingInput, numberInput, reviewInput].forEach((input) => {
+      input.addEventListener('input', render);
+      input.addEventListener('change', render);
+    });
+
+    document.querySelector('#copy').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(output.value);
+        status.textContent = 'Bloc copié. Colle-le dans une carte HTML Ghost.';
+      } catch (error) {
+        output.classList.remove('code-output');
+        output.focus();
+        output.select();
+        status.textContent = 'Copie automatique bloquée : le code est sélectionné ci-dessous.';
+      }
+    });
+
+    document.querySelector('#reset').addEventListener('click', () => {
+      spotifyInput.value = '';
+      artistInput.value = '';
+      albumInput.value = '';
+      ratingInput.value = '4';
+      numberInput.value = '1';
+      reviewInput.value = '';
+      coverUrl = '';
+      status.textContent = 'En attente d’une URL Spotify.';
+      output.classList.add('code-output');
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
