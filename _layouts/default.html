@@ -16,11 +16,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
 
   <style>
-    /* Rendu proche Tumblr (colonne centrale) */
+    /* Colonne de lecture */
     body{
       font-family:"Times New Roman", serif;
-      font-size:.88em;
-      max-width:540px;
+      font-size:1rem;
+      max-width:720px;
       margin:0 auto;
       padding:2rem 1rem;
       line-height:1.5;
@@ -160,8 +160,9 @@
             {%- assign hero_abs = hero_url | absolute_url -%}
           {%- endif -%}
 
-          {%- if hero_source != "firstimg" -%}
-            <!-- Web hero (pas de doublon si 1re image) -->
+          {%- if hero_source == "front" -%}
+            <!-- Web hero explicite uniquement. Les vidéos et images déjà présentes
+                 dans le contenu ne sont pas répétées. -->
             <div class="hero" style="margin:1rem 0">
               <img src="{{ hero_rel }}" alt="{{ post.hero_alt | default: post.title }}">
             </div>
